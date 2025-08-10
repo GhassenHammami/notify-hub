@@ -12,7 +12,9 @@
     @stack('dumper')
     @viteReactRefresh()
     @inertiaHead()
+    @routes()
     @vite(['inertia/app/app.tsx', `inertia/pages/${page.component}.tsx`])
+    <link rel="icon" type="image/svg+xml" href="../../inertia/public/assets/logo.svg" />
   </head>
 
   <body class="min-h-screen w-screen font-sans">

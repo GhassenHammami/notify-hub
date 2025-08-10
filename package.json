@@ -55,7 +55,7 @@
     "vite": "^6.3.5"
   },
   "dependencies": {
-    "@adonisjs/auth": "^9.4.0",
+    "@adonisjs/auth": "^9.4.2",
     "@adonisjs/core": "^6.18.0",
     "@adonisjs/cors": "^2.2.1",
     "@adonisjs/inertia": "^3.1.1",
@@ -65,17 +65,21 @@
     "@adonisjs/static": "^1.1.1",
     "@adonisjs/vite": "^4.0.0",
     "@inertiajs/react": "^2.0.17",
+    "@izzyjs/route": "^1.2.0",
     "@tailwindcss/vite": "^4.1.11",
     "@vinejs/vine": "^3.0.1",
     "autoprefixer": "^10.4.21",
     "better-sqlite3": "^12.2.0",
     "edge.js": "^6.2.1",
+    "lucide-react": "^0.539.0",
     "luxon": "^3.7.1",
     "postcss": "^8.5.6",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
+    "react-hot-toast": "^2.5.2",
     "reflect-metadata": "^0.2.2",
-    "tailwindcss": "^4.1.11"
+    "tailwindcss": "^4.1.11",
+    "yup": "^1.7.0"
   },
   "hotHook": {
     "boundaries": [
