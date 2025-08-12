@@ -15,6 +15,7 @@ const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 
 router.get('/', [HomeController, 'index']).as('home')
+router.get('/', [HomeController, 'index']).as('home').use(middleware.guest())
 
 router
   .group(() => {
