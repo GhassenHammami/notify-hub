@@ -3,6 +3,6 @@ import type { HttpContext } from '@adonisjs/core/http'
 export default class LogoutController {
   async handle({ response, auth }: HttpContext) {
     await auth.use('web').logout()
-    return response.redirect().back()
+    return response.redirect().toRoute('home')
   }
 }

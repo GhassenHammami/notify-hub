@@ -11,6 +11,6 @@ export default class LoginController {
     const { email, password, isRememberMe } = await request.validateUsing(loginValidator)
     const user = await User.verifyCredentials(email, password)
     await auth.use('web').login(user, isRememberMe)
-    return response.redirect().toRoute('/')
+    return response.redirect().toRoute('dashboard.show')
   }
 }

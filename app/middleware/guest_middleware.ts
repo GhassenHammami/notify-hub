@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import type { NextFn } from '@adonisjs/core/types/http'
 import type { Authenticators } from '@adonisjs/auth/types'
+import router from '@adonisjs/core/services/router'
 
 /**
  * Guest middleware is used to deny access to routes that should
@@ -13,7 +14,7 @@ export default class GuestMiddleware {
   /**
    * The URL to redirect to when user is logged-in
    */
-  redirectTo = '/'
+  redirectTo = router.makeUrl('dashboard.show')
 
   async handle(
     ctx: HttpContext,
