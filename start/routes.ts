@@ -14,7 +14,6 @@ const RegisterController = () => import('#controllers/auth/register_controller')
 const LoginController = () => import('#controllers/auth/login_controller')
 const LogoutController = () => import('#controllers/auth/logout_controller')
 
-router.get('/', [HomeController, 'index']).as('home')
 router.get('/', [HomeController, 'index']).as('home').use(middleware.guest())
 
 router
@@ -35,3 +34,8 @@ router
   })
   .prefix('/auth')
   .as('auth')
+
+router
+  .get('/dashboard', '#controllers/dashboard_controller.show')
+  .as('dashboard.show')
+  .use(middleware.auth())
