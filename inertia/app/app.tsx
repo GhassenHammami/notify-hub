@@ -8,6 +8,9 @@ import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import AppLayout from '~/layouts/AppLayout'
 
 export type InertiaPage = Function & { layout?: (element: React.JSX.Element) => React.JSX.Element }
+export type InertiaPage<P = any> = ((props: P) => React.JSX.Element) & {
+  layout?: (element: React.JSX.Element) => React.JSX.Element
+}
 const appName = import.meta.env.VITE_APP_NAME || 'NotifyHub'
 
 createInertiaApp({

@@ -4,13 +4,20 @@ import { LucideIcon } from 'lucide-react'
 export interface StatsCardProps {
   title: string
   value: string
-  change: string
-  trend: 'up' | 'down'
+  change?: string
+  trend?: 'up' | 'down'
   icon: LucideIcon
   color: 'blue' | 'purple' | 'green' | 'indigo'
 }
 
-const StatsCard: React.FC<StatsCardProps> = ({ title, value, change, trend, icon: Icon, color }) => {
+const StatsCard: React.FC<StatsCardProps> = ({
+  title,
+  value,
+  change,
+  trend,
+  icon: Icon,
+  color,
+}) => {
   const colorClasses = {
     blue: 'bg-blue-50 text-blue-600',
     purple: 'bg-purple-50 text-purple-600',
@@ -28,13 +35,15 @@ const StatsCard: React.FC<StatsCardProps> = ({ title, value, change, trend, icon
       </div>
       <div className="mt-4 flex items-baseline">
         <p className="text-3xl font-bold tracking-tight text-gray-900">{value}</p>
-        <p
-          className={`ml-2 text-sm font-medium ${
-            trend === 'up' ? 'text-green-600' : 'text-red-600'
-          }`}
-        >
-          {change}
-        </p>
+        {change && trend && (
+          <p
+            className={`ml-2 text-sm font-medium ${
+              trend === 'up' ? 'text-green-600' : 'text-red-600'
+            }`}
+          >
+            {change}
+          </p>
+        )}
       </div>
     </div>
   )

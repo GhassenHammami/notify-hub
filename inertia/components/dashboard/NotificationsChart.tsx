@@ -23,14 +23,21 @@ ChartJS.register(
   Filler
 )
 
-const NotificationsChart: React.FC = () => {
-  const data = {
-    labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+interface NotificationsChartProps {
+  data: {
+    labels: string[]
+    data: number[]
+  }
+}
+
+const NotificationsChart: React.FC<NotificationsChartProps> = ({ data }) => {
+  const chartData = {
+    labels: data.labels,
     datasets: [
       {
         label: 'Notifications',
-        data: [1200, 1900, 1500, 2100, 1800, 2500, 2200],
-        borderColor: 'rgb(79, 70, 229)', // Indigo color
+        data: data.data,
+        borderColor: 'rgb(79, 70, 229)',
         backgroundColor: 'rgba(79, 70, 229, 0.1)',
         fill: true,
         tension: 0.4,
@@ -84,7 +91,7 @@ const NotificationsChart: React.FC = () => {
 
   return (
     <div className="h-[300px]">
-      <Line data={data} options={options} />
+      <Line data={chartData} options={options} />
     </div>
   )
 }

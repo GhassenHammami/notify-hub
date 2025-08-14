@@ -1,41 +1,37 @@
 import React from 'react'
 import { Mail, MessageSquare, Bell } from 'lucide-react'
 
-const notifications = [
-  {
-    id: 1,
-    type: 'email',
-    title: 'Welcome Email',
-    recipient: 'john@example.com',
-    status: 'delivered',
-    time: '2 minutes ago',
-    icon: Mail,
-  },
-  {
-    id: 2,
-    type: 'sms',
-    title: 'OTP Code',
-    recipient: '+1234567890',
-    status: 'delivered',
-    time: '5 minutes ago',
-    icon: MessageSquare,
-  },
-  {
-    id: 3,
-    type: 'push',
-    title: 'New Update Available',
-    recipient: 'All Users',
-    status: 'sent',
-    time: '10 minutes ago',
-    icon: Bell,
-  },
-]
+interface NotificationItem {
+  id: number
+  type: string
+  title: string
+  recipient: string
+  status: string
+  time: string
+}
 
-const RecentNotifications: React.FC = () => {
+interface RecentNotificationsProps {
+  notifications: NotificationItem[]
+}
+
+const RecentNotifications: React.FC<RecentNotificationsProps> = ({ notifications }) => {
+  const getIconComponent = (iconName: string) => {
+    switch (iconName) {
+      case 'Mail':
+        return Mail
+      case 'MessageSquare':
+        return MessageSquare
+      case 'Bell':
+        return Bell
+      default:
+        return Bell
+    }
+  }
+
   return (
     <div className="divide-y divide-gray-100">
       {notifications.map((notification) => {
-        const Icon = notification.icon
+        const Icon = getIconComponent(notification.icon)
         const typeColors = {
           email: 'bg-blue-50 text-blue-600',
           sms: 'bg-purple-50 text-purple-600',
@@ -47,7 +43,9 @@ const RecentNotifications: React.FC = () => {
             key={notification.id}
             className="flex items-center gap-4 py-4 transition-colors duration-200 hover:bg-gray-50"
           >
-            <div className={`rounded-xl p-2 ${typeColors[notification.type as keyof typeof typeColors]}`}>
+            <div
+              className={`rounded-xl p-2 ${typeColors[notification.type as keyof typeof typeColors]}`}
+            >
               <Icon className="h-5 w-5" />
             </div>
             <div className="flex-1 space-y-1">
