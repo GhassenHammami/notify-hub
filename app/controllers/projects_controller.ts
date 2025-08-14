@@ -18,18 +18,28 @@ export default class ProjectsController {
   }
 
   async show({ inertia, auth, params }: HttpContext) {
-    const project = await Project.query()
-      .where('id', params.id)
-      .where('user_id', auth.user!.id)
-      .withCount('notifications')
-      .firstOrFail()
+    try {
+      const project = await Project.query()
+        .where('id', params.id)
+        .where('user_id', auth.user!.id)
+        .withCount('notifications')
+        .firstOrFail()
 
-    const projectWithCount = {
-      ...project.toJSON(),
-      notificationsCount: project.$extras.notifications_count,
+      const projectWithCount = {
+        ...project.toJSON(),
+        notificationsCount: project.$extras.notifications_count,
+      }
+
+      return inertia.render('projects/show', { project: projectWithCount })
+    } catch (error) {
+      if (error.code === 'E_ROW_NOT_FOUND') {
+        return inertia.render('errors/not_found', {
+          title: 'Project Not Found',
+          resource: 'project',
+        })
+      }
+      throw error
     }
-
-    return inertia.render('projects/show', { project: projectWithCount })
   }
 
   async create({ inertia }: HttpContext) {
