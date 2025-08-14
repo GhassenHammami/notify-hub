@@ -161,7 +161,7 @@ const Home: InertiaPage = () => {
   return (
     <>
       <Head title="Home" />
-      {/* Hero Section */}
+
       <section className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-purple-600 to-indigo-700 text-white">
         <div className="absolute inset-0 bg-black opacity-10"></div>
         <div className="relative mx-auto max-w-7xl px-4 py-12 sm:px-6 sm:py-16 lg:px-8 lg:py-24">
@@ -196,11 +196,10 @@ const Home: InertiaPage = () => {
           </div>
         </div>
 
-        {/* Floating elements - hidden on mobile */}
         <div className="absolute top-20 left-10 hidden h-20 w-20 animate-bounce rounded-full bg-white opacity-10 sm:block"></div>
         <div className="absolute right-10 bottom-20 hidden h-16 w-16 animate-pulse rounded-full bg-white opacity-10 sm:block"></div>
       </section>
-      {/* Features Section */}
+
       <section id="features" className="bg-gray-50 py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center sm:mb-16">
@@ -236,7 +235,7 @@ const Home: InertiaPage = () => {
           </div>
         </div>
       </section>
-      {/* How it works */}
+
       <section className="bg-white py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center sm:mb-16">
@@ -285,7 +284,7 @@ const Home: InertiaPage = () => {
           </div>
         </div>
       </section>
-      {/* Pricing Section */}
+
       <section id="pricing" className="bg-gray-50 py-12 sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mb-12 text-center sm:mb-16">
@@ -358,7 +357,7 @@ const Home: InertiaPage = () => {
           </div>
         </div>
       </section>
-      {/* CTA Section */}
+
       <section className="bg-blue-600 py-12 text-white sm:py-16 lg:py-20">
         <div className="mx-auto max-w-7xl px-4 text-center sm:px-6 lg:px-8">
           <h2 className="mb-3 text-2xl font-bold sm:mb-4 sm:text-3xl md:text-4xl">
@@ -377,7 +376,7 @@ const Home: InertiaPage = () => {
           </div>
         </div>
       </section>
-      {/* Footer */}
+
       <footer className="bg-gray-900 py-8 text-white sm:py-12">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:grid-cols-4">

@@ -1,13 +1,9 @@
-/// <reference path="../../adonisrc.ts" />
-/// <reference path="../../config/inertia.ts" />
-
 import '../css/app.css'
 import { hydrateRoot } from 'react-dom/client'
 import { createInertiaApp } from '@inertiajs/react'
 import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 import AppLayout from '~/layouts/AppLayout'
 
-export type InertiaPage = Function & { layout?: (element: React.JSX.Element) => React.JSX.Element }
 export type InertiaPage<P = any> = ((props: P) => React.JSX.Element) & {
   layout?: (element: React.JSX.Element) => React.JSX.Element
 }
