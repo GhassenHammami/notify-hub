@@ -6,7 +6,7 @@ import { route } from '@izzyjs/route/client'
 const Sidebar: React.FC = () => {
   const isActivePath = (href: string) => {
     const currentRoute = route().current()
-    return currentRoute.includes(href)
+    return currentRoute == href || currentRoute.includes(href + '/')
   }
 
   return (
