@@ -1,4 +1,4 @@
-import { Fragment, ReactNode } from 'react'
+import { Fragment, ReactNode, useEffect, useState } from 'react'
 import { X } from 'lucide-react'
 
 interface ModalProps {
@@ -50,7 +50,28 @@ export default function Modal({
   backdrop = true,
   backdropClassName = '',
 }: ModalProps) {
-  if (!isOpen) return null
+  const [isVisible, setIsVisible] = useState(false)
+  const [isAnimating, setIsAnimating] = useState(false)
+
+  useEffect(() => {
+    if (isOpen) {
+      setIsVisible(true)
+      document.body.style.overflow = 'hidden'
+      const timer = setTimeout(() => {
+        setIsAnimating(true)
+      }, 10)
+      return () => clearTimeout(timer)
+    } else {
+      setIsAnimating(false)
+      const timer = setTimeout(() => {
+        setIsVisible(false)
+        document.body.style.overflow = 'unset'
+      }, 200)
+      return () => clearTimeout(timer)
+    }
+  }, [isOpen])
+
+  if (!isVisible) return null
 
   const sizeClasses = {
     sm: 'max-w-sm',
@@ -106,7 +127,9 @@ export default function Modal({
     <Fragment>
       {backdrop && (
         <div
-          className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-opacity ${backdropClassName}`}
+          className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-all duration-200 ease-out ${
+            isAnimating ? 'opacity-100' : 'opacity-0'
+          } ${backdropClassName}`}
           onClick={handleBackdropClick}
         />
       )}
@@ -117,7 +140,9 @@ export default function Modal({
         tabIndex={-1}
       >
         <div
-          className={`relative w-full transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all ${sizeClasses[size]} ${className}`}
+          className={`relative w-full transform overflow-hidden rounded-2xl bg-white shadow-2xl transition-all duration-200 ease-out ${
+            isAnimating ? 'translate-y-0 scale-100 opacity-100' : 'translate-y-4 scale-95 opacity-0'
+          } ${sizeClasses[size]} ${className}`}
         >
           {showHeader && (
             <div
