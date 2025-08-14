@@ -81,8 +81,8 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
               href="/projects/create"
               className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
             >
-              <Plus className="mr-2 h-4 w-4" />
-              New Project
+              <Plus className="h-4 w-4 min-sm:mr-2" />
+              <p className="max-sm:hidden">New Project</p>
             </Link>
           </div>
         </header>
@@ -108,12 +108,12 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 gap-6 2xl:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 min-[74rem]:grid-cols-4 2xl:grid-cols-3">
             {projects.map((project) => (
               <Link
                 key={project.id}
                 href={`/projects/${project.id}`}
-                className="transform cursor-pointer overflow-hidden rounded-2xl bg-white p-4 shadow-lg transition-all duration-200 hover:scale-[1.05] hover:shadow-xl sm:p-6"
+                className="transform cursor-pointer overflow-hidden rounded-2xl bg-white p-4 shadow-lg transition-all duration-200 hover:scale-[1.05] hover:shadow-xl sm:p-6 min-[70rem]:col-span-2 2xl:col-span-1"
               >
                 <div className="mb-4 flex items-start justify-between">
                   <h3 className="text-xl font-semibold text-gray-900">{project.name}</h3>
