@@ -36,13 +36,12 @@ const Navbar: React.FC = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
-  // Get authenticated navigation items for mobile view
   const authenticatedNavItems = isAuthenticated ? navigationItems : []
 
   return (
     <nav className="sticky top-0 z-40 border-b border-gray-200 bg-[#F9F7F7] backdrop-blur-lg backdrop-filter">
       <div className="mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex h-16 items-center justify-between">
+        <div className="flex h-[var(--navbar-height)] items-center justify-between">
           <div className="flex items-center">
             <Link href={route('home')} className="flex items-center" as="button">
               <img className="h-20 w-auto" src={logo} alt="Notify Hub" />
@@ -52,7 +51,6 @@ const Navbar: React.FC = () => {
             </Link>
           </div>
 
-          {/* Right section */}
           <div className="hidden md:block">
             <div className="ml-4 flex items-center gap-4 md:ml-6">
               {isAuthenticated ? (
@@ -126,7 +124,7 @@ const Navbar: React.FC = () => {
           </div>
         </div>
       </div>
-      {/* Mobile Nav */}
+
       <div
         className={`transition-all duration-300 ease-in-out md:hidden ${
           isMobileMenuOpen ? 'max-h-96 opacity-100' : 'max-h-0 overflow-hidden opacity-0'

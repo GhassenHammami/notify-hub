@@ -1,10 +1,16 @@
 import React from 'react'
 import { Link } from '@inertiajs/react'
 import { navigationItems } from '../utils/navigation'
+import { route } from '@izzyjs/route/client'
 
 const Sidebar: React.FC = () => {
+  const isActivePath = (href: string) => {
+    const currentRoute = route().current()
+    return currentRoute.includes(href)
+  }
+
   return (
-    <aside className="relative z-30 w-64 overflow-hidden border-r border-gray-100 bg-white shadow-sm max-md:hidden">
+    <aside className="sticky top-[var(--navbar-height)] box-border h-[calc(100vh-var(--navbar-height)-1px)] w-64 overflow-hidden border-r border-gray-100 bg-white shadow-sm max-md:hidden">
       <div className="absolute inset-0 opacity-[0.02]">
         <div
           className="absolute inset-0"
@@ -27,12 +33,28 @@ const Sidebar: React.FC = () => {
               <Link
                 key={item.label}
                 href={item.href}
-                className="group relative flex items-center rounded-xl border border-transparent px-4 py-3 text-sm font-medium text-gray-700 transition-all duration-300 hover:scale-[1.02] hover:border-blue-100 hover:bg-gradient-to-r hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 hover:text-blue-700 hover:shadow-sm"
+                className={`group relative flex items-center rounded-xl border px-4 py-3 text-sm font-medium transition-all duration-300 hover:scale-[1.02] ${
+                  isActivePath(item.href)
+                    ? 'border-blue-200 bg-gradient-to-r from-blue-50 via-indigo-50 to-purple-50 text-blue-700 shadow-sm'
+                    : 'border-transparent text-gray-700 hover:border-blue-100 hover:bg-gradient-to-r hover:from-blue-50 hover:via-indigo-50 hover:to-purple-50 hover:text-blue-700 hover:shadow-sm'
+                }`}
               >
-                <div className="absolute top-1/2 left-0 h-8 w-1 origin-top -translate-y-1/2 scale-y-0 transform rounded-r-full bg-gradient-to-b from-blue-500 to-indigo-500 opacity-0 transition-all duration-300 group-hover:scale-y-100 group-hover:opacity-100" />
+                <div
+                  className={`absolute top-1/2 left-0 h-8 w-1 origin-top -translate-y-1/2 transform rounded-r-full bg-gradient-to-b from-blue-500 to-indigo-500 transition-all duration-300 ${
+                    isActivePath(item.href)
+                      ? 'scale-y-100 opacity-100'
+                      : 'scale-y-0 opacity-0 group-hover:scale-y-100 group-hover:opacity-100'
+                  }`}
+                />
 
                 <div className="relative">
-                  <Icon className="mr-4 h-5 w-5 flex-shrink-0 text-gray-400 transition-all duration-300 group-hover:scale-110 group-hover:text-blue-600" />
+                  <Icon
+                    className={`mr-4 h-5 w-5 flex-shrink-0 transition-all duration-300 group-hover:scale-110 ${
+                      isActivePath(item.href)
+                        ? 'scale-110 text-blue-600'
+                        : 'text-gray-400 group-hover:text-blue-600'
+                    }`}
+                  />
                   <div className="absolute inset-0 scale-0 rounded-full bg-blue-100 opacity-0 transition-opacity duration-300 group-hover:scale-150 group-hover:opacity-20" />
                 </div>
 

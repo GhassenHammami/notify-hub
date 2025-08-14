@@ -2,6 +2,10 @@
 @config "../../tailwind.config.ts";
 
 @layer base {
+  :root {
+    --navbar-height: 4rem;
+  }
+
   * {
     margin: 0;
     padding: 0;
