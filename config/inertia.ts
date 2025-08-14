@@ -15,6 +15,14 @@ const inertiaConfig = defineConfig({
       ctx.session?.flashMessages.get('errors')
     },
     user: (ctx) => ctx.inertia.always(() => ctx.auth?.user),
+    flash: (ctx) => {
+      const success = ctx.session?.flashMessages.get('success')
+      const error = ctx.session?.flashMessages.get('error')
+      const warning = ctx.session?.flashMessages.get('warning')
+      const info = ctx.session?.flashMessages.get('info')
+
+      return { success, error, warning, info }
+    },
   },
 
   /**

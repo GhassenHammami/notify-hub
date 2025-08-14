@@ -39,3 +39,19 @@ router
   .get('/dashboard', '#controllers/dashboard_controller.show')
   .as('dashboard.show')
   .use(middleware.auth())
+
+router
+  .group(() => {
+    router.get('/', '#controllers/projects_controller.index').as('index')
+    router.get('/create', '#controllers/projects_controller.create').as('create')
+    router.post('/', '#controllers/projects_controller.store').as('store')
+    router.get('/:id', '#controllers/projects_controller.show').as('show')
+    router.patch('/:id', '#controllers/projects_controller.update').as('update')
+    router.delete('/:id', '#controllers/projects_controller.destroy').as('destroy')
+    router
+      .patch('/:id/regenerate-api-key', '#controllers/projects_controller.regenerateApiKey')
+      .as('regenerateApiKey')
+  })
+  .prefix('/projects')
+  .as('projects')
+  .use(middleware.auth())
