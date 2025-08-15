@@ -12,17 +12,21 @@ interface NotFoundProps {
   resource?: string
 }
 
-const NotFound: InertiaPage<NotFoundProps> = ({ error, message, code, title, resource }) => {
+const NotFound: InertiaPage<NotFoundProps> = ({
+  error,
+  message,
+  code = '404',
+  title = 'Page Not Found',
+  resource,
+}) => {
   const errorMessage =
     message ||
     error ||
     `The ${resource || 'page'} you're looking for doesn't exist or has been moved.`
-  const errorCode = code || '404'
-  const pageTitle = title || 'Page Not Found'
 
   return (
     <>
-      <Head title={pageTitle} />
+      <Head title={title} />
 
       <div className="flex flex-1 items-center justify-center bg-gray-50 px-4 py-12">
         <div className="mx-auto max-w-2xl text-center">
@@ -30,8 +34,8 @@ const NotFound: InertiaPage<NotFoundProps> = ({ error, message, code, title, res
             <div className="mx-auto mb-6 flex h-24 w-24 items-center justify-center rounded-full bg-red-100">
               <AlertTriangle className="h-12 w-12 text-red-600" />
             </div>
-            <h1 className="mb-4 text-6xl font-bold text-gray-900">{errorCode}</h1>
-            <h2 className="mb-4 text-2xl font-semibold text-gray-700">{pageTitle}</h2>
+            <h1 className="mb-4 text-6xl font-bold text-gray-900">{code}</h1>
+            <h2 className="mb-4 text-2xl font-semibold text-gray-700">{title}</h2>
             <p className="text-lg text-gray-600">{errorMessage}</p>
           </div>
 
