@@ -3,6 +3,7 @@ import { Home, ArrowLeft, Search, AlertTriangle } from 'lucide-react'
 import { route } from '@izzyjs/route/client'
 import { InertiaPage } from '~/app/app'
 import GuestLayout from '~/layouts/GuestLayout'
+import AppLayout from '~/layouts/AppLayout'
 
 interface NotFoundProps {
   error?: string
@@ -92,7 +93,7 @@ NotFound.layout = (page) => {
     return <GuestLayout>{page}</GuestLayout>
   }
 
-  return page
+  return <AppLayout>{page}</AppLayout>
 }
 
 export default NotFound
