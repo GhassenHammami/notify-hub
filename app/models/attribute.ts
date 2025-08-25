@@ -3,7 +3,7 @@ import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Template from './template.js'
 import AttributeValue from './attribute_value.js'
-import AttributeType from '../enums/AttributeType.js'
+import AttributeType from '../enums/attribute_type.js'
 
 export default class Attribute extends BaseModel {
   @column({ isPrimary: true })

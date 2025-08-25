@@ -7,18 +7,14 @@ export default class extends BaseSchema {
     this.schema.createTable(this.tableName, (table) => {
       table.increments('id').primary()
       table
-        .integer('notification_id')
-        .unsigned()
-        .references('id')
-        .inTable('notifications')
-        .onDelete('CASCADE')
-      table
         .integer('template_id')
         .unsigned()
         .references('id')
         .inTable('templates')
         .onDelete('SET NULL')
       table.string('status').notNullable().defaultTo('PENDING')
+      table.string('recipient').notNullable()
+      table.timestamp('sent_at').nullable()
       table.string('fail_reason').nullable()
 
       table.timestamp('created_at').notNullable()

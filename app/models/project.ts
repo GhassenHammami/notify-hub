@@ -21,6 +21,9 @@ export default class Project extends BaseModel {
   @column()
   declare apiKey: string
 
+  @column()
+  declare isActive: boolean
+
   @hasMany(() => Notification)
   declare notifications: HasMany<typeof Notification>
 

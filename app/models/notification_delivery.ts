@@ -1,20 +1,13 @@
 import { DateTime } from 'luxon'
 import { BaseModel, belongsTo, column, hasMany } from '@adonisjs/lucid/orm'
 import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
-import Notification from './notification.js'
 import Template from './template.js'
 import AttributeValue from './attribute_value.js'
-import NotificationDeliveryStatus from '../enums/NotificationDeliveryStatus.js'
+import NotificationDeliveryStatus from '../enums/notification_delivery_status.js'
 
 export default class NotificationDelivery extends BaseModel {
   @column({ isPrimary: true })
   declare id: number
-
-  @column()
-  declare notificationId: number
-
-  @belongsTo(() => Notification)
-  declare notification: BelongsTo<typeof Notification>
 
   @column()
   declare templateId: number
@@ -26,6 +19,12 @@ export default class NotificationDelivery extends BaseModel {
   declare status: NotificationDeliveryStatus
 
   @column()
+  declare recipient: string
+
+  @column.dateTime()
+  declare sentAt: DateTime | null
+
+  @column()
   declare failReason: string | null
 
   @hasMany(() => AttributeValue)
@@ -34,6 +33,6 @@ export default class NotificationDelivery extends BaseModel {
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime
 
-  @column.dateTime({ autoCreate: true, autoUpdate: true })
+  @column.dateTime({ autoUpdate: true, autoCreate: true })
   declare updatedAt: DateTime
 }
