@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { CheckCircle, XCircle, AlertTriangle, Info, X } from 'lucide-react'
+import { CheckCircle, XCircle, AlertTriangle, Info, X, LucideIcon } from 'lucide-react'
 
 export interface FlashMessage {
   success?: string
@@ -12,27 +12,52 @@ interface FlashNotificationProps {
   flash?: FlashMessage
 }
 
+type FlashType = keyof FlashMessage
+
+interface FlashConfig {
+  icon: LucideIcon
+  color: string
+}
+
+const flashConfigMap: Record<FlashType, FlashConfig> = {
+  success: {
+    icon: CheckCircle,
+    color: 'bg-green-50 text-green-800 border-l-green-300',
+  },
+  error: {
+    icon: XCircle,
+    color: 'bg-red-50 text-red-800 border-l-red-300',
+  },
+  warning: {
+    icon: AlertTriangle,
+    color: 'bg-yellow-50 text-yellow-800 border-l-yellow-300',
+  },
+  info: {
+    icon: Info,
+    color: 'bg-blue-50 text-blue-800 border-l-blue-300',
+  },
+}
+
 const FlashNotification: React.FC<FlashNotificationProps> = ({ flash }) => {
   const [isVisible, setIsVisible] = useState(false)
   const [currentMessage, setCurrentMessage] = useState<{
-    type: keyof FlashMessage
+    type: FlashType
     message: string
   } | null>(null)
   const [isAnimating, setIsAnimating] = useState(false)
 
   useEffect(() => {
-    if (flash) {
-      const messageTypes: (keyof FlashMessage)[] = ['success', 'error', 'warning', 'info']
-      for (const type of messageTypes) {
-        if (flash[type]) {
-          setCurrentMessage({ type, message: flash[type]! })
-          setIsVisible(false)
-          setIsAnimating(true)
-          setTimeout(() => {
-            setIsVisible(true)
-          }, 50)
-          break
-        }
+    if (!flash) return
+    const messageTypes: FlashType[] = ['success', 'error', 'warning', 'info']
+    for (const type of messageTypes) {
+      if (flash[type]) {
+        setCurrentMessage({ type, message: flash[type]! })
+        setIsVisible(false)
+        setIsAnimating(true)
+        setTimeout(() => {
+          setIsVisible(true)
+        }, 50)
+        break
       }
     }
   }, [flash])
@@ -51,48 +76,21 @@ const FlashNotification: React.FC<FlashNotificationProps> = ({ flash }) => {
     }
   }, [isVisible])
 
-  if (!currentMessage || !isAnimating) {
-    return null
-  }
+  if (!currentMessage || !isAnimating) return null
 
-  const getIcon = (type: keyof FlashMessage) => {
-    switch (type) {
-      case 'success':
-        return <CheckCircle className="h-5 w-5 text-green-400" />
-      case 'error':
-        return <XCircle className="h-5 w-5 text-red-400" />
-      case 'warning':
-        return <AlertTriangle className="h-5 w-5 text-yellow-400" />
-      case 'info':
-        return <Info className="h-5 w-5 text-blue-400" />
-      default:
-        return null
-    }
-  }
-
-  const getStyles = (type: keyof FlashMessage) => {
-    switch (type) {
-      case 'success':
-        return 'bg-green-50 border-green-200 text-green-800'
-      case 'error':
-        return 'bg-red-50 border-red-200 text-red-800'
-      case 'warning':
-        return 'bg-yellow-50 border-yellow-200 text-yellow-800'
-      case 'info':
-        return 'bg-blue-50 border-blue-200 text-blue-800'
-      default:
-        return 'bg-gray-50 border-gray-200 text-gray-800'
-    }
-  }
+  const config = flashConfigMap[currentMessage.type]
+  const Icon = config.icon
 
   return (
     <div
-      className={`fixed top-[calc(var(--navbar-height)+1rem)] right-4 z-50 max-w-sm transform rounded-lg border p-4 shadow-lg transition-all duration-500 ease-out ${
+      className={`fixed top-[calc(var(--navbar-height)+1rem)] right-4 z-40 max-w-sm transform rounded-lg border-l-4 p-4 shadow-lg transition-all duration-500 ease-out ${
         isVisible ? 'translate-x-0 scale-100 opacity-100' : 'translate-x-full scale-95 opacity-0'
-      } ${getStyles(currentMessage.type)}`}
+      } ${config.color}`}
     >
       <div className="flex items-start space-x-3">
-        <div className="flex-shrink-0">{getIcon(currentMessage.type)}</div>
+        <div className="flex-shrink-0">
+          <Icon className={`h-5 w-5 ${config.color}`} />
+        </div>
         <div className="flex-1">
           <p className="text-sm font-medium">{currentMessage.message}</p>
         </div>
