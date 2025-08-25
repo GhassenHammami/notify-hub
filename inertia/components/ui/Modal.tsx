@@ -56,7 +56,6 @@ export default function Modal({
   useEffect(() => {
     if (isOpen) {
       setIsVisible(true)
-      document.body.style.overflow = 'hidden'
       const timer = setTimeout(() => {
         setIsAnimating(true)
       }, 10)
@@ -65,7 +64,6 @@ export default function Modal({
       setIsAnimating(false)
       const timer = setTimeout(() => {
         setIsVisible(false)
-        document.body.style.overflow = 'unset'
       }, 200)
       return () => clearTimeout(timer)
     }
