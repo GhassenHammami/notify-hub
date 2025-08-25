@@ -1,3 +1,4 @@
+import Project from '#models/project'
 import { defineConfig } from '@adonisjs/inertia'
 import type { InferSharedProps } from '@adonisjs/inertia/types'
 
@@ -15,6 +16,14 @@ const inertiaConfig = defineConfig({
       ctx.session?.flashMessages.get('errors')
     },
     user: (ctx) => ctx.inertia.always(() => ctx.auth?.user),
+    currentProject: (ctx) => ctx.inertia.always(() => ctx.session?.get('current_project')),
+    allProjects: async (ctx) => {
+      if (!ctx.auth?.user) return null
+      return await Project.query()
+        .where('user_id', ctx.auth.user.id)
+        .orderBy('created_at', 'desc')
+        .select('id', 'name')
+    },
     flash: (ctx) => {
       const success = ctx.session?.flashMessages.get('success')
       const error = ctx.session?.flashMessages.get('error')

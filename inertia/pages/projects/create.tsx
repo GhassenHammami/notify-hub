@@ -1,111 +1,105 @@
-import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import React from 'react'
+import { Head, useForm } from '@inertiajs/react'
 import { InertiaPage } from '~/app/app'
-import { ArrowLeft, Plus } from 'lucide-react'
-import FlashNotification from '~/components/ui/FlashNotification'
+import { FolderKanban, Save, ArrowLeft } from 'lucide-react'
+import { Link } from '@inertiajs/react'
+import { route } from '@izzyjs/route/client'
 
 const CreateProject: InertiaPage = () => {
-  const { flash } = usePage().props as {
-    flash?: { success?: string; error?: string; warning?: string; info?: string }
-  }
   const { data, setData, post, processing, errors } = useForm({
     name: '',
   })
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    post('/projects')
+    post(route('projects.store').path)
   }
 
   return (
     <>
       <Head title="Create Project" />
-      <FlashNotification flash={flash} />
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-8">
-          <div className="flex items-center space-x-4">
-            <Link
-              href="/projects"
-              className="inline-flex items-center text-gray-600 transition-colors hover:text-gray-900"
-            >
-              <ArrowLeft className="mr-2 h-5 w-5" />
-              Back to Projects
-            </Link>
-          </div>
-          <div className="mt-4">
-            <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Create New Project
-            </h1>
-            <p className="mt-2 text-lg text-gray-600">
-              Create a new project to start sending notifications. Each project gets its own unique
-              API key.
-            </p>
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-4">
+                <Link
+                  href={route('projects.index')}
+                  className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-gray-700"
+                >
+                  <ArrowLeft className="mr-2 h-4 w-4" />
+                  Back to Projects
+                </Link>
+              </div>
+              <h1 className="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Create New Project
+              </h1>
+              <p className="mt-2 text-lg text-gray-600">
+                Create a new project to start sending notifications
+              </p>
+            </div>
           </div>
         </header>
 
         <div className="mx-auto max-w-2xl">
-          <div className="rounded-2xl bg-white p-8 shadow-lg">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div>
-                <label htmlFor="name" className="mb-2 block text-sm font-medium text-gray-700">
-                  Project Name
-                </label>
-                <input
-                  type="text"
-                  id="name"
-                  name="name"
-                  value={data.name}
-                  onChange={(e) => setData('name', e.target.value)}
-                  className={`w-full rounded-lg border px-4 py-3 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 focus:outline-none ${
-                    errors.name ? 'border-red-300' : 'border-gray-300'
-                  }`}
-                  placeholder="Enter project name"
-                  required
-                />
-                {errors.name && <p className="mt-2 text-sm text-red-600">{errors.name}</p>}
-                <p className="mt-2 text-sm text-gray-500">
-                  Choose a descriptive name for your project (e.g., "Production App", "Staging
-                  Environment")
-                </p>
-              </div>
+          <div className="overflow-hidden rounded-2xl bg-white shadow-lg">
+            <form onSubmit={handleSubmit} className="p-6">
+              <div className="space-y-6">
+                <div>
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                    Project Name
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    value={data.name}
+                    onChange={(e) => setData('name', e.target.value)}
+                    className="mt-1 block w-full rounded-md border border-gray-300 px-3 py-2 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none sm:text-sm"
+                    placeholder="Enter project name"
+                  />
+                  {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name}</p>}
+                  <p className="mt-1 text-sm text-gray-500">
+                    Choose a descriptive name for your project (e.g., "Marketing Campaigns", "User
+                    Notifications")
+                  </p>
+                </div>
 
-              <div className="rounded-lg bg-blue-50 p-4">
-                <div className="flex">
-                  <div className="flex-shrink-0">
-                    <Plus className="h-5 w-5 text-blue-400" />
-                  </div>
-                  <div className="ml-3">
-                    <h3 className="text-sm font-medium text-blue-800">What happens next?</h3>
-                    <div className="mt-2 text-sm text-blue-700">
-                      <ul className="list-disc space-y-1 pl-5">
-                        <li>A unique 32-character API key will be generated automatically</li>
-                        <li>You can start creating notification templates for this project</li>
-                        <li>Use the API key to authenticate your notification requests</li>
+                <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                  <div className="flex items-start">
+                    <FolderKanban className="mt-0.5 mr-3 h-5 w-5 text-gray-600" />
+                    <div className="text-sm text-gray-700">
+                      <h4 className="font-medium">What happens next?</h4>
+                      <ul className="mt-2 space-y-1">
+                        <li>• A unique API key will be generated for your project</li>
+                        <li>• You'll be able to create notification templates</li>
+                        <li>• Start sending notifications through multiple channels</li>
+                        <li>• Track delivery status and analytics</li>
                       </ul>
                     </div>
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-center justify-end space-x-4 pt-6">
+              <div className="mt-8 flex items-center justify-end space-x-3 border-t border-gray-200 pt-6">
                 <Link
-                  href="/projects"
-                  className="rounded-lg border border-gray-300 bg-white px-6 py-3 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+                  href={route('projects.index')}
+                  className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                 >
                   Cancel
                 </Link>
                 <button
                   type="submit"
                   disabled={processing || !data.name.trim()}
-                  className="inline-flex items-center rounded-lg bg-indigo-600 px-6 py-3 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
                 >
                   {processing ? (
-                    <>
-                      <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-white border-t-transparent"></div>
-                      Creating...
-                    </>
+                    <div className="flex items-center space-x-2">
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                      <span>Creating...</span>
+                    </div>
                   ) : (
                     <>
-                      <Plus className="mr-2 h-4 w-4" />
+                      <Save className="mr-2 h-4 w-4" />
                       Create Project
                     </>
                   )}

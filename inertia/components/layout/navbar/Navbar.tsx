@@ -4,6 +4,8 @@ import { X, LogOut, Menu, Bell, User } from 'lucide-react'
 import logo from '../../../public/assets/logo.svg'
 import { route } from '@izzyjs/route/client'
 import { navigationItems } from '~/utils/navigation'
+import ProjectSelector from './ProjectSelector'
+import Project from '#models/project'
 
 interface User {
   id: number
@@ -13,6 +15,7 @@ interface User {
 
 interface PageProps {
   user?: User
+  currentProject?: Project
   [key: string]: any
 }
 
@@ -20,7 +23,7 @@ const Navbar: React.FC = () => {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const { user } = usePage<PageProps>().props
+  const { user, currentProject } = usePage<PageProps>().props
   const isAuthenticated = !!user
 
   useEffect(() => {
@@ -36,7 +39,9 @@ const Navbar: React.FC = () => {
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   }
-  const authenticatedNavItems = isAuthenticated ? navigationItems : []
+  const authenticatedNavItems = isAuthenticated
+    ? navigationItems.filter((item) => !item.requiresProject || currentProject)
+    : []
 
   return (
     <nav className="sticky top-0 z-40 border-b border-gray-200 bg-[#F9F7F7] backdrop-blur-lg backdrop-filter">
@@ -55,6 +60,7 @@ const Navbar: React.FC = () => {
             <div className="ml-4 flex items-center gap-4 md:ml-6">
               {isAuthenticated ? (
                 <>
+                  <ProjectSelector />
                   <button className="flex items-center rounded-lg p-2 text-gray-600 hover:bg-gray-100 hover:text-gray-900">
                     <Bell className="h-5 w-5" />
                   </button>
@@ -112,7 +118,8 @@ const Navbar: React.FC = () => {
               )}
             </div>
           </div>
-          <div className="md:hidden">
+          <div className="flex items-center gap-2 md:hidden">
+            <ProjectSelector />
             <button
               type="button"
               onClick={toggleMobileMenu}

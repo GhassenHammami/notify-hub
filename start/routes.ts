@@ -58,6 +58,10 @@ router
     router
       .patch('/:id/regenerate-api-key', '#controllers/projects_controller.regenerateApiKey')
       .as('regenerateApiKey')
+    router
+      .patch('/:id/toggle-active', '#controllers/projects_controller.toggleActive')
+      .as('toggleActive')
+    router.post('/switch', '#controllers/projects_controller.switch').as('switch')
   })
   .prefix('/projects')
   .as('projects')

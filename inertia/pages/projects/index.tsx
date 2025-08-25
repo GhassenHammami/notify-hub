@@ -1,24 +1,27 @@
-import { Head, Link, useForm, usePage } from '@inertiajs/react'
+import { Head, Link, useForm, usePage, Form } from '@inertiajs/react'
 import { InertiaPage } from '~/app/app'
-import { Plus, Settings, Trash2, Copy, Check, Eye, EyeOff, Bell } from 'lucide-react'
 import { useState } from 'react'
 import Modal from '~/components/ui/Modal'
-import FlashNotification, { FlashMessage } from '~/components/ui/FlashNotification'
-
-interface Project {
-  id: number
-  name: string
-  apiKey: string
-  createdAt: string
-  notificationsCount?: number
-}
+import { route } from '@izzyjs/route/client'
+import Project from '#models/project'
+import {
+  Plus,
+  Settings,
+  Trash2,
+  Copy,
+  Check,
+  Eye,
+  EyeOff,
+  CheckCircle,
+  Calendar,
+} from 'lucide-react'
 
 interface ProjectsIndexProps {
   projects: Project[]
 }
 
-const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
-  const { flash } = usePage().props as { flash?: FlashMessage }
+const ProjectsIndex: InertiaPage<ProjectsIndexProps> = ({ projects }) => {
+  const { currentProject } = usePage().props as { currentProject?: Project }
   const [copiedKey, setCopiedKey] = useState<number | null>(null)
   const [visibleKeys, setVisibleKeys] = useState<Set<number>>(new Set())
   const [deleteModal, setDeleteModal] = useState<{ isOpen: boolean; projectId: number | null }>({
@@ -26,6 +29,7 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
     projectId: null,
   })
   const { delete: destroy, processing } = useForm()
+  const { processing: switchingProject } = useForm()
 
   const copyApiKey = async (apiKey: string, projectId: number) => {
     try {
@@ -65,7 +69,6 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
   return (
     <>
       <Head title="Projects" />
-      <FlashNotification flash={flash} />
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-8">
           <div className="flex items-center justify-between">
@@ -78,7 +81,7 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
               </p>
             </div>
             <Link
-              href="/projects/create"
+              href={route('projects.create')}
               className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
             >
               <Plus className="h-4 w-4 min-sm:mr-2" />
@@ -99,7 +102,7 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
                 unique API key.
               </p>
               <Link
-                href="/projects/create"
+                href={route('projects.create')}
                 className="inline-flex items-center rounded-lg bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
               >
                 <Plus className="mr-2 h-5 w-5" />
@@ -110,13 +113,42 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
         ) : (
           <div className="grid grid-cols-1 gap-6 min-[74rem]:grid-cols-4 2xl:grid-cols-3">
             {projects.map((project) => (
-              <Link
+              <div
                 key={project.id}
-                href={`/projects/${project.id}`}
-                className="transform cursor-pointer overflow-hidden rounded-2xl bg-white p-4 shadow-lg transition-all duration-200 hover:scale-[1.05] hover:shadow-xl sm:p-6 min-[70rem]:col-span-2 2xl:col-span-1"
+                className={`transform overflow-hidden rounded-2xl p-4 shadow-lg transition-transform duration-200 hover:scale-[1.05] hover:shadow-xl sm:p-6 min-[70rem]:col-span-2 2xl:col-span-1 ${
+                  currentProject?.id === project.id
+                    ? 'border-2 border-indigo-200 bg-gradient-to-br from-indigo-50 to-blue-50'
+                    : 'bg-white'
+                }`}
               >
                 <div className="mb-4 flex items-start justify-between">
-                  <h3 className="text-xl font-semibold text-gray-900">{project.name}</h3>
+                  <div className="flex flex-col gap-1">
+                    <div className="flex items-center gap-2">
+                      <h3 className="text-xl font-semibold text-gray-900">{project.name}</h3>
+                      {currentProject?.id === project.id && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-800">
+                          <CheckCircle className="h-3 w-3" />
+                          Selected
+                        </span>
+                      )}
+                    </div>
+                    <div className="flex items-center space-x-2 text-sm text-gray-500">
+                      <Calendar className="h-3 w-3 text-gray-400" />
+                      <span>
+                        Created {new Date(project.createdAt as any).toLocaleDateString('en-GB')}
+                      </span>
+                    </div>
+                    <div className="flex items-center space-x-2 text-sm">
+                      <div
+                        className={`h-2 w-2 rounded-full ${project.isActive ? 'bg-green-500' : 'bg-red-500'}`}
+                      ></div>
+                      <span
+                        className={`text-xs font-medium ${project.isActive ? 'text-green-600' : 'text-red-600'}`}
+                      >
+                        {project.isActive ? 'Active' : 'Inactive'}
+                      </span>
+                    </div>
+                  </div>
                   <button
                     onClick={(e) => {
                       e.preventDefault()
@@ -172,43 +204,38 @@ const ProjectsIndex: InertiaPage = ({ projects }: ProjectsIndexProps) => {
                   </div>
                 </div>
 
-                <div className="flex flex-col space-y-2 text-sm text-gray-500 sm:flex-row sm:items-center sm:justify-between sm:space-y-0">
-                  <span>Created {new Date(project.createdAt).toLocaleDateString()}</span>
-                  <div className="flex items-center space-x-2 sm:space-x-4">
-                    {project.notificationsCount !== undefined && (
-                      <span className="flex items-center">
-                        {project.notificationsCount > 0 ? (
-                          <div className="flex items-center">
-                            <div className="mr-2 flex h-5 w-5 items-center justify-center rounded-full bg-green-100">
-                              <Bell className="h-3 w-3 text-green-600" />
-                            </div>
-                            <span className="font-medium text-green-700">
-                              {project.notificationsCount} notification
-                              {project.notificationsCount !== 1 ? 's' : ''}
-                            </span>
+                <div className="mt-4 flex items-center justify-between">
+                  <Link
+                    href={route('projects.show', { params: { id: project.id.toString() } })}
+                    className="text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500"
+                  >
+                    View Details →
+                  </Link>
+
+                  {currentProject?.id !== project.id && (
+                    <Form
+                      method="post"
+                      action={route('projects.switch')}
+                      transform={(data) => ({ ...data, projectId: project.id })}
+                    >
+                      <button
+                        type="submit"
+                        disabled={switchingProject}
+                        className="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-3 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md"
+                      >
+                        {switchingProject ? (
+                          <div className="flex items-center space-x-2">
+                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                            <span>Selecting...</span>
                           </div>
                         ) : (
-                          <div className="flex flex-col space-y-2 sm:flex-row sm:items-center sm:space-y-0 sm:space-x-3">
-                            <div className="flex items-center">
-                              <div className="mr-2 flex h-5 w-5 items-center justify-center rounded-full bg-gray-100">
-                                <Bell className="h-3 w-3 text-gray-500" />
-                              </div>
-                              <span className="text-gray-400">No notifications</span>
-                            </div>
-                            <Link
-                              href={`/projects/${project.id}/notifications/create`}
-                              className="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-3 py-1.5 text-xs font-medium whitespace-nowrap text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md"
-                            >
-                              <Plus className="mr-1 h-3 w-3" />
-                              Create Now
-                            </Link>
-                          </div>
+                          'Select Project'
                         )}
-                      </span>
-                    )}
-                  </div>
+                      </button>
+                    </Form>
+                  )}
                 </div>
-              </Link>
+              </div>
             ))}
           </div>
         )}

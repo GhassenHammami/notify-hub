@@ -82,6 +82,7 @@ export default class ProjectsController {
     const projectName = project.name
     await project.delete()
 
+    session.forget('current_project')
     session.flash('success', `Project "${projectName}" has been deleted successfully!`)
 
     return response.redirect().toRoute('projects.index')
@@ -113,5 +114,35 @@ export default class ProjectsController {
     )
 
     return response.redirect().toRoute('projects.show', { id: project.id })
+  }
+
+  async switch({ request, response, auth, session }: HttpContext) {
+    const { projectId } = request.only(['projectId'])
+
+    const project = await Project.query()
+      .where('id', projectId)
+      .where('userId', auth.user!.id)
+      .firstOrFail()
+
+    session.put('current_project', project)
+
+    session.flash('success', `Switched to project "${project.name}"`)
+
+    return response.redirect().back()
+  }
+
+  async toggleActive({ response, auth, params, session }: HttpContext) {
+    const project = await Project.query()
+      .where('id', params.id)
+      .where('userId', auth.user!.id)
+      .firstOrFail()
+
+    project.isActive = !project.isActive
+    await project.save()
+
+    const status = project.isActive ? 'activated' : 'deactivated'
+    session.flash('success', `Project "${project.name}" has been ${status} successfully!`)
+
+    return response.redirect().back()
   }
 }
