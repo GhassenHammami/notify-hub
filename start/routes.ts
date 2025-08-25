@@ -66,3 +66,17 @@ router
   .prefix('/projects')
   .as('projects')
   .use(middleware.auth())
+
+router
+  .group(() => {
+    router.get('/', '#controllers/notifications_controller.index').as('index')
+    router.get('/create', '#controllers/notifications_controller.create').as('create')
+    router.post('/', '#controllers/notifications_controller.store').as('store')
+    router.get('/:id/edit', '#controllers/notifications_controller.edit').as('edit')
+    router.get('/:id', '#controllers/notifications_controller.show').as('show')
+    router.patch('/:id', '#controllers/notifications_controller.update').as('update')
+    router.delete('/:id', '#controllers/notifications_controller.destroy').as('destroy')
+  })
+  .prefix('/notifications')
+  .as('notifications')
+  .use([middleware.auth(), middleware.project()])
