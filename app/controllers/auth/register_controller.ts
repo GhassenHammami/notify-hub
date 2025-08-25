@@ -7,10 +7,16 @@ export default class RegisterController {
     return inertia.render('auth/register')
   }
 
-  async store({ request, response, auth }: HttpContext) {
+  async store({ request, response, auth, session }: HttpContext) {
     const data = await request.validateUsing(registerValidator)
     const user = await User.create(data)
     await auth.use('web').login(user)
+
+    session.flash(
+      'success',
+      `Welcome to NotifyHub, ${user.fullName}! Start creating your first project to get started.`
+    )
+
     return response.redirect().toRoute('dashboard.show')
   }
 }
