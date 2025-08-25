@@ -7,12 +7,11 @@ import AppLayout from '~/layouts/AppLayout'
 export type InertiaPage<P = any> = ((props: P) => React.JSX.Element) & {
   layout?: (element: React.JSX.Element) => React.JSX.Element
 }
-const appName = import.meta.env.VITE_APP_NAME || 'NotifyHub'
 
 createInertiaApp({
   progress: { color: '#5468FF' },
 
-  title: (title) => `${title} - ${appName}`,
+  title: (title) => `${title} - NotifyHub`,
 
   resolve: async (name) => {
     const page = await resolvePageComponent(
