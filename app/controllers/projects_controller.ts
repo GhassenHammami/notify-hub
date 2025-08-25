@@ -6,41 +6,25 @@ import { createProjectValidator, updateProjectValidator } from '#validators/proj
 export default class ProjectsController {
   async index({ inertia, auth }: HttpContext) {
     const projects = await Project.query()
-      .where('user_id', auth.user!.id)
-      .withCount('notifications')
-      .orderBy('created_at', 'desc')
-
-    const projectsWithCounts = projects.map((project) => ({
-      ...project.toJSON(),
-      notificationsCount: project.$extras.notifications_count,
-    }))
-
-    return inertia.render('projects/index', { projects: projectsWithCounts })
+      .where('userId', auth.user!.id)
+      .orderBy('createdAt', 'desc')
+      .select('id', 'name', 'apiKey', 'createdAt', 'updatedAt', 'isActive')
+    return inertia.render('projects/index', { projects })
   }
 
   async show({ inertia, auth, params }: HttpContext) {
-    try {
-      const project = await Project.query()
-        .where('id', params.id)
-        .where('user_id', auth.user!.id)
-        .withCount('notifications')
-        .firstOrFail()
+    const project = await Project.query()
+      .where('id', params.id)
+      .where('userId', auth.user!.id)
+      .withCount('notifications')
+      .firstOrFail()
 
-      const projectWithCount = {
-        ...project.toJSON(),
-        notificationsCount: project.$extras.notifications_count,
-      }
-
-      return inertia.render('projects/show', { project: projectWithCount })
-    } catch (error) {
-      if (error.code === 'E_ROW_NOT_FOUND') {
-        return inertia.render('errors/not_found', {
-          title: 'Project Not Found',
-          resource: 'project',
-        })
-      }
-      throw error
+    const projectWithCount = {
+      ...project.toJSON(),
+      notificationsCount: project.$extras.notifications_count,
     }
+
+    return inertia.render('projects/show', { project: projectWithCount })
   }
 
   async create({ inertia }: HttpContext) {
