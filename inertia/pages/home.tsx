@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 import GuestLayout from '~/layouts/GuestLayout'
 import { InertiaPage } from '~/app/app'
 import { Head } from '@inertiajs/react'
+import { Check } from 'lucide-react'
 
 interface Feature {
   title: string
@@ -324,17 +325,7 @@ const Home: InertiaPage = () => {
                 <ul className="mb-6 space-y-2 sm:mb-8 sm:space-y-3">
                   {plan.features.map((feature: string, featureIndex: number) => (
                     <li key={featureIndex} className="flex items-start">
-                      <svg
-                        className="mt-0.5 mr-2 h-4 w-4 flex-shrink-0 text-green-500 sm:mr-3 sm:h-5 sm:w-5"
-                        fill="currentColor"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fillRule="evenodd"
-                          d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
+                      <Check className="mt-0.5 mr-2 h-4 w-4 flex-shrink-0 text-green-500 sm:mr-3 sm:h-5 sm:w-5" />
                       <span className="text-sm sm:text-base">{feature}</span>
                     </li>
                   ))}
