@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from '@inertiajs/react'
-import { navigationItems } from '../utils/navigation'
+import { navigationItems } from '~/utils/navigation'
 import { route } from '@izzyjs/route/client'
 
 const Sidebar: React.FC = () => {

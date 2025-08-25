@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Link, usePage } from '@inertiajs/react'
 import { X, LogOut, Menu, Bell, User } from 'lucide-react'
-import logo from '../public/assets/logo.svg'
+import logo from '../../../public/assets/logo.svg'
 import { route } from '@izzyjs/route/client'
 import { navigationItems } from '~/utils/navigation'
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
-import Input from '~/components/Input'
+import Input from '~/components/form/Input'
 import { LoaderCircle } from 'lucide-react'
 import * as yup from 'yup'
 import toast, { Toaster } from 'react-hot-toast'
