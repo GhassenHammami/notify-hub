@@ -80,3 +80,17 @@ router
   .prefix('/notifications')
   .as('notifications')
   .use([middleware.auth(), middleware.project()])
+
+router
+  .group(() => {
+    router.get('/', '#controllers/templates_controller.index').as('index')
+    router.get('/create', '#controllers/templates_controller.create').as('create')
+    router.post('/', '#controllers/templates_controller.store').as('store')
+    router.get('/:id', '#controllers/templates_controller.show').as('show')
+    router.get('/:id/edit', '#controllers/templates_controller.edit').as('edit')
+    router.patch('/:id', '#controllers/templates_controller.update').as('update')
+    router.delete('/:id', '#controllers/templates_controller.destroy').as('destroy')
+  })
+  .prefix('/templates')
+  .as('templates')
+  .use([middleware.auth(), middleware.project()])
