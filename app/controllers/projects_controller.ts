@@ -1,6 +1,7 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Project from '#models/project'
 import { nanoid } from 'nanoid'
+import { createProjectValidator, updateProjectValidator } from '#validators/project_validator'
 
 export default class ProjectsController {
   async index({ inertia, auth }: HttpContext) {
@@ -47,7 +48,7 @@ export default class ProjectsController {
   }
 
   async store({ request, response, auth, session }: HttpContext) {
-    const { name } = request.only(['name'])
+    const data = await request.validateUsing(createProjectValidator)
 
     let apiKey: string = ''
     let isUnique = false
@@ -61,12 +62,13 @@ export default class ProjectsController {
     }
 
     const project = await Project.create({
-      name,
+      name: data.name,
       apiKey: apiKey!,
       userId: auth.user!.id,
+      isActive: true,
     })
 
-    session.flash('success', `Project "${name}" has been created successfully!`)
+    session.flash('success', `Project "${data.name}" has been created successfully!`)
 
     return response.redirect().toRoute('projects.show', { id: project.id })
   }
@@ -77,12 +79,12 @@ export default class ProjectsController {
       .where('user_id', auth.user!.id)
       .firstOrFail()
 
-    const { name } = request.only(['name'])
+    const data = await request.validateUsing(updateProjectValidator)
 
-    project.name = name
+    project.name = data.name
     await project.save()
 
-    session.flash('success', `Project name updated to "${name}" successfully!`)
+    session.flash('success', `Project name updated to "${data.name}" successfully!`)
 
     return response.redirect().toRoute('projects.show', { id: project.id })
   }
