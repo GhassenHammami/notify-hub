@@ -1,6 +1,7 @@
 import app from '@adonisjs/core/services/app'
 import { HttpContext, ExceptionHandler } from '@adonisjs/core/http'
 import type { StatusPageRange, StatusPageRenderer } from '@adonisjs/core/types/http'
+import { errors as lucidErrors } from '@adonisjs/lucid'
 
 export default class HttpExceptionHandler extends ExceptionHandler {
   /**
@@ -22,6 +23,13 @@ export default class HttpExceptionHandler extends ExceptionHandler {
    */
   protected statusPages: Record<StatusPageRange, StatusPageRenderer> = {
     '404': (error, { inertia }) => {
+      if (error instanceof lucidErrors.E_ROW_NOT_FOUND) {
+        const resource = error.model?.name || 'Row'
+        return inertia.render('errors/not_found', {
+          title: `${resource} Not Found`,
+          resource,
+        })
+      }
       return inertia.render('errors/not_found', {
         error: error.message || 'Page not found',
         title: 'Page Not Found',
