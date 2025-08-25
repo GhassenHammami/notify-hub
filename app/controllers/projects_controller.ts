@@ -55,7 +55,7 @@ export default class ProjectsController {
 
     while (!isUnique) {
       apiKey = nanoid(32)
-      const existingProject = await Project.query().where('api_key', apiKey).first()
+      const existingProject = await Project.query().where('apiKey', apiKey).first()
       if (!existingProject) {
         isUnique = true
       }
@@ -76,7 +76,7 @@ export default class ProjectsController {
   async update({ request, response, auth, params, session }: HttpContext) {
     const project = await Project.query()
       .where('id', params.id)
-      .where('user_id', auth.user!.id)
+      .where('userId', auth.user!.id)
       .firstOrFail()
 
     const data = await request.validateUsing(updateProjectValidator)
@@ -92,7 +92,7 @@ export default class ProjectsController {
   async destroy({ response, auth, params, session }: HttpContext) {
     const project = await Project.query()
       .where('id', params.id)
-      .where('user_id', auth.user!.id)
+      .where('userId', auth.user!.id)
       .firstOrFail()
 
     const projectName = project.name
@@ -106,7 +106,7 @@ export default class ProjectsController {
   async regenerateApiKey({ response, auth, params, session }: HttpContext) {
     const project = await Project.query()
       .where('id', params.id)
-      .where('user_id', auth.user!.id)
+      .where('userId', auth.user!.id)
       .firstOrFail()
 
     let apiKey: string = ''
@@ -114,7 +114,7 @@ export default class ProjectsController {
 
     while (!isUnique) {
       apiKey = nanoid(32)
-      const existingProject = await Project.query().where('api_key', apiKey).first()
+      const existingProject = await Project.query().where('apiKey', apiKey).first()
       if (!existingProject) {
         isUnique = true
       }
