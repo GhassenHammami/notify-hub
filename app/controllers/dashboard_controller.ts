@@ -1,107 +1,142 @@
 import type { HttpContext } from '@adonisjs/core/http'
 import Notification from '#models/notification'
 import NotificationDelivery from '#models/notification_delivery'
-import Channel from '../enums/Channel.js'
-import NotificationDeliveryStatus from '../enums/NotificationDeliveryStatus.js'
+import NotificationDeliveryStatus from '../enums/notification_delivery_status.js'
 import { DateTime } from 'luxon'
+import Project from '#models/project'
+import Template from '#models/template'
+import Channel from '../enums/channel.js'
+
+interface ChannelDeliveryCounts {
+  channel: Channel
+  total: number
+}
+
+interface DashboardStats {
+  totalProjects: number
+  totalNotifications: number
+  totalTemplates: number
+  channelDeliveryCounts: ChannelDeliveryCounts[]
+}
+
+interface DashboardChartData {
+  day: string
+  data: number
+}
+
+interface DashboardRecentNotification {
+  id: number
+  type: Channel
+  title: string
+  recipient: string
+  status: string
+  time: string
+}
+
+export interface DashboardData {
+  stats: DashboardStats
+  chartData: DashboardChartData[]
+  recentNotifications: DashboardRecentNotification[]
+}
 
 export default class DashboardController {
-  async show({ inertia }: HttpContext) {
-    const totalNotifications = await Notification.query().count('* as total').first()
+  async show({ inertia, auth }: HttpContext) {
+    const startOfWeek = DateTime.now().minus({ days: 6 }).startOf('day')
+    const endOfToday = DateTime.now().endOf('day')
 
-    const emailDeliveries = await NotificationDelivery.query()
-      .join('templates', 'notification_deliveries.template_id', 'templates.id')
-      .where('templates.channel', Channel.EMAIL)
-      .where('notification_deliveries.status', NotificationDeliveryStatus.SENT)
-      .count('* as total')
-      .first()
-
-    const smsSent = await NotificationDelivery.query()
-      .join('templates', 'notification_deliveries.template_id', 'templates.id')
-      .where('templates.channel', Channel.SMS)
-      .where('notification_deliveries.status', NotificationDeliveryStatus.SENT)
-      .count('* as total')
-      .first()
+    const [
+      totalProjects,
+      totalNotifications,
+      totalTemplates,
+      channelDeliveryCounts,
+      deliveries,
+      recentNotifications,
+    ] = await Promise.all([
+      Project.query().where('userId', auth.user!.id).count('*', 'total').first(),
+      Notification.query()
+        .whereHas('project', (query) => {
+          query.where('user_id', auth.user!.id)
+        })
+        .count('*', 'total')
+        .first(),
+      Template.query()
+        .whereHas('notification', (notificationQuery) => {
+          notificationQuery.whereHas('project', (projectQuery) => {
+            projectQuery.where('user_id', auth.user!.id)
+          })
+        })
+        .count('*', 'total')
+        .first(),
+      NotificationDelivery.query()
+        .join('templates', 'notification_deliveries.template_id', 'templates.id')
+        .join('notifications', 'templates.notification_id', 'notifications.id')
+        .join('projects', 'notifications.project_id', 'projects.id')
+        .where('projects.user_id', auth.user!.id)
+        .where('notification_deliveries.status', NotificationDeliveryStatus.SENT)
+        .groupBy('templates.channel')
+        .select('templates.channel')
+        .count('notification_deliveries.id as total'),
+      NotificationDelivery.query()
+        .whereBetween('created_at', [startOfWeek.toSQL(), endOfToday.toSQL()])
+        .select('created_at'),
+      NotificationDelivery.query()
+        .join('templates', 'notification_deliveries.template_id', 'templates.id')
+        .join('notifications', 'templates.notification_id', 'notifications.id')
+        .join('projects', 'notifications.project_id', 'projects.id')
+        .where('projects.user_id', auth.user!.id)
+        .select(
+          'notification_deliveries.id',
+          'notification_deliveries.status',
+          'notification_deliveries.created_at',
+          'notification_deliveries.recipient',
+          'templates.channel',
+          'notifications.title'
+        )
+        .orderBy('notification_deliveries.created_at', 'desc')
+        .limit(5),
+    ])
 
     const last7Days = Array.from({ length: 7 }, (_, i) => {
-      const date = DateTime.now().minus({ days: i })
-      return {
-        date: date.toFormat('EEE'),
-        startOfDay: date.startOf('day').toSQL(),
-        endOfDay: date.endOf('day').toSQL(),
-      }
-    }).reverse()
+      const date = startOfWeek.plus({ days: i })
+      return { date, count: 0 }
+    })
 
-    const notificationActivity = await Promise.all(
-      last7Days.map(async ({ date, startOfDay, endOfDay }) => {
-        const count = await NotificationDelivery.query()
-          .whereBetween('created_at', [startOfDay, endOfDay])
-          .count('* as total')
-          .first()
-
-        return {
-          date,
-          count: count?.$extras.total || 0,
-        }
-      })
-    )
-
-    const recentNotifications = await NotificationDelivery.query()
-      .join('templates', 'notification_deliveries.template_id', 'templates.id')
-      .join('notifications', 'notification_deliveries.notification_id', 'notifications.id')
-      .select(
-        'notification_deliveries.id',
-        'notification_deliveries.status',
-        'notification_deliveries.created_at',
-        'templates.channel',
-        'notifications.title'
-      )
-      .orderBy('notification_deliveries.created_at', 'desc')
-      .limit(10)
-
-    const stats = {
+    const stats: DashboardStats = {
+      totalProjects: totalProjects?.$extras.total || 0,
       totalNotifications: totalNotifications?.$extras.total || 0,
-      emailDeliveries: emailDeliveries?.$extras.total || 0,
-      smsSent: smsSent?.$extras.total || 0,
+      totalTemplates: totalTemplates?.$extras.total || 0,
+      channelDeliveryCounts: channelDeliveryCounts.map((sc: any) => ({
+        channel: sc.$extras.channel,
+        total: sc.$extras.total,
+      })),
     }
 
-    const chartData = {
-      labels: notificationActivity.map((item) => item.date),
-      data: notificationActivity.map((item) => item.count),
-    }
+    const chartData: DashboardChartData[] = last7Days.map((day) => ({
+      day: day.date.toFormat('EEE'),
+      data: deliveries.filter((d) => d.createdAt.toISODate() === day.date.toISODate()).length,
+    }))
 
-    const recentData = recentNotifications.map((delivery: any) => ({
+    const recentData: DashboardRecentNotification[] = recentNotifications.map((delivery: any) => ({
       id: delivery.id,
-      type: delivery.$extras.channel?.toLowerCase() || 'unknown',
-      title: delivery.$extras.title || 'Unknown',
-      recipient: this.getRecipientDisplay(delivery.$extras.channel),
-      status: delivery.status.toLowerCase(),
+      type: delivery.$extras.channel,
+      title: delivery.$extras.title,
+      recipient: delivery.recipient,
+      status: delivery.status,
       time: this.formatTimeAgo(delivery.createdAt),
     }))
 
-    return inertia.render('dashboard', {
+    const dashboardData: DashboardData = {
       stats,
       chartData,
       recentNotifications: recentData,
-    })
-  }
-
-  private getRecipientDisplay(channel: string): string {
-    switch (channel) {
-      case Channel.EMAIL:
-        return 'user@example.com'
-      case Channel.SMS:
-        return '+1234567890'
-      case Channel.PUSH:
-        return 'All Users'
-      default:
-        return 'Unknown'
     }
+
+    return inertia.render('dashboard', dashboardData)
   }
 
   private formatTimeAgo(createdAt: any): string {
     const now = DateTime.now()
-    const created = DateTime.fromJSDate(createdAt)
+    const created = DateTime.fromISO(createdAt)
     const diff = now.diff(created, 'minutes')
 
     if (diff.minutes < 1) return 'Just now'

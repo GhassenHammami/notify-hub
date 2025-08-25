@@ -1,9 +1,12 @@
 import React from 'react'
-import { Mail, MessageSquare, Bell } from 'lucide-react'
+import { Inbox } from 'lucide-react'
+import ChannelIcon from '../ui/ChannelIcon'
+import Channel from '#enums/channel'
+import { getChannelBg } from '~/utils/channels'
 
 interface NotificationItem {
   id: number
-  type: string
+  type: Channel
   title: string
   recipient: string
   status: string
@@ -15,38 +18,30 @@ interface RecentNotificationsProps {
 }
 
 const RecentNotifications: React.FC<RecentNotificationsProps> = ({ notifications }) => {
-  const getIconComponent = (iconName: string) => {
-    switch (iconName) {
-      case 'Mail':
-        return Mail
-      case 'MessageSquare':
-        return MessageSquare
-      case 'Bell':
-        return Bell
-      default:
-        return Bell
-    }
+  if (notifications.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center py-12 text-center">
+        <div className="mx-auto mb-4 flex h-16 w-16 items-center justify-center rounded-full bg-gray-50">
+          <Inbox className="h-8 w-8 text-gray-400" />
+        </div>
+        <h4 className="mb-2 text-lg font-medium text-gray-900">No Recent Notifications</h4>
+        <p className="max-w-xs text-sm text-gray-500">
+          When you send notifications, they'll appear here for quick access and monitoring.
+        </p>
+      </div>
+    )
   }
 
   return (
     <div className="divide-y divide-gray-100">
       {notifications.map((notification) => {
-        const Icon = getIconComponent(notification.icon)
-        const typeColors = {
-          email: 'bg-blue-50 text-blue-600',
-          sms: 'bg-purple-50 text-purple-600',
-          push: 'bg-green-50 text-green-600',
-        }
-
         return (
           <div
             key={notification.id}
             className="flex items-center gap-4 py-4 transition-colors duration-200 hover:bg-gray-50"
           >
-            <div
-              className={`rounded-xl p-2 ${typeColors[notification.type as keyof typeof typeColors]}`}
-            >
-              <Icon className="h-5 w-5" />
+            <div className={`rounded-xl p-2 text-white ${getChannelBg(notification.type, 500)}`}>
+              <ChannelIcon channel={notification.type} />
             </div>
             <div className="flex-1 space-y-1">
               <h4 className="font-medium text-gray-900">{notification.title}</h4>

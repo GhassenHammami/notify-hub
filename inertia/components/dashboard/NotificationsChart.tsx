@@ -25,18 +25,18 @@ ChartJS.register(
 
 interface NotificationsChartProps {
   data: {
-    labels: string[]
-    data: number[]
-  }
+    day: string
+    data: number
+  }[]
 }
 
 const NotificationsChart: React.FC<NotificationsChartProps> = ({ data }) => {
   const chartData = {
-    labels: data.labels,
+    labels: data.map((d) => d.day),
     datasets: [
       {
         label: 'Notifications',
-        data: data.data,
+        data: data.map((d) => d.data),
         borderColor: 'rgb(79, 70, 229)',
         backgroundColor: 'rgba(79, 70, 229, 0.1)',
         fill: true,
