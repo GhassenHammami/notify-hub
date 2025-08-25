@@ -36,10 +36,7 @@ const validationSchema = yup.object({
 
       return true
     }),
-  email: yup
-    .string()
-    .required('Email is required')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address'),
+  email: yup.string().email('Please enter a valid email address').required('Email is required'),
   password: yup
     .string()
     .required('Password is required')

@@ -9,10 +9,7 @@ import { InertiaPage } from '~/app/app'
 import GuestLayout from '~/layouts/GuestLayout'
 
 const validationSchema = yup.object().shape({
-  email: yup
-    .string()
-    .required('Email is required')
-    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, 'Please enter a valid email address'),
+  email: yup.string().required('Email is required').email('Please enter a valid email address'),
   password: yup
     .string()
     .required('Password is required')
