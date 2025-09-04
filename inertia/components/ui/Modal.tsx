@@ -1,5 +1,6 @@
-import { Fragment, ReactNode, useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { X } from 'lucide-react'
+import { createPortal } from 'react-dom'
 
 interface ModalProps {
   isOpen: boolean
@@ -121,8 +122,8 @@ export default function Modal({
     }
   }
 
-  return (
-    <Fragment>
+  const modalContent = (
+    <div className="fixed inset-0 z-50">
       {backdrop && (
         <div
           className={`fixed inset-0 z-40 bg-black/50 backdrop-blur-sm transition-all duration-200 ease-out ${
@@ -174,6 +175,8 @@ export default function Modal({
           )}
         </div>
       </div>
-    </Fragment>
+    </div>
   )
+
+  return createPortal(modalContent, document.body)
 }
