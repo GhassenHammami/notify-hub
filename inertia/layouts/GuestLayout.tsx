@@ -10,7 +10,7 @@ const GuestLayout: React.FC<GuestLayoutProps> = ({ children }) => {
     <>
       <div className="flex min-h-screen flex-col bg-gray-50">
         <Navbar />
-        <main className="flex flex-1 flex-col">{children}</main>
+        <main className="flex max-w-full flex-1 flex-col">{children}</main>
       </div>
     </>
   )

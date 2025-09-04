@@ -18,7 +18,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
         <Navbar />
         <div className="flex flex-1">
           {isAuthenticated && <Sidebar />}
-          <main className="flex-1 p-4">{children}</main>
+          <main className="max-w-full flex-1 p-4">{children}</main>
         </div>
       </div>
     </>
