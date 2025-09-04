@@ -30,17 +30,26 @@ const ProjectSelector: React.FC = () => {
     currentProject && allProjects ? allProjects.find((p) => p.id === currentProject?.id) : null
   const displayText = currentProjectData ? currentProjectData.name : 'Select a Project'
   const hasProjects = allProjects && allProjects.length > 0
+  const noProjectSelected = !currentProjectData
 
   return (
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex min-w-48 items-center gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none md:min-w-80 md:px-4 md:py-3"
+        className={`flex min-w-48 items-center gap-2 rounded-lg border px-3 py-2 text-sm font-medium shadow-sm transition-colors focus:ring-2 focus:ring-offset-2 focus:outline-none md:min-w-80 md:px-4 md:py-3 ${
+          noProjectSelected
+            ? 'border-red-300 bg-red-50 text-red-700 hover:bg-red-100 focus:ring-red-500'
+            : 'border-indigo-300 bg-indigo-50 text-indigo-700 hover:bg-indigo-100 focus:ring-indigo-500'
+        }`}
       >
-        <FolderKanban className="h-4 w-4 text-gray-500" />
+        <FolderKanban
+          className={`h-4 w-4 ${noProjectSelected ? 'text-red-500' : 'text-indigo-500'}`}
+        />
         <span className="flex-1 truncate text-left">{displayText}</span>
         <ChevronDown
-          className={`h-4 w-4 text-gray-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
+          className={`h-4 w-4 transition-transform ${isOpen ? 'rotate-180' : ''} ${
+            noProjectSelected ? 'text-red-400' : 'text-indigo-400'
+          }`}
         />
       </button>
       {isOpen && (
