@@ -47,7 +47,7 @@ const Sidebar: React.FC = () => {
 
   return (
     <>
-      <aside className="sticky top-[var(--navbar-height)] box-border h-[calc(100vh-var(--navbar-height)-1px)] w-64 overflow-hidden border-r border-gray-100 bg-white shadow-sm max-md:hidden">
+      <aside className="sticky top-[var(--navbar-height)] box-border h-[calc(100vh-var(--navbar-height)-1px)] min-w-64 overflow-hidden border-r border-gray-100 bg-white shadow-sm max-md:hidden">
         <div className="absolute inset-0 opacity-[0.02]">
           <div
             className="absolute inset-0"
