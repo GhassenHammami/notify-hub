@@ -15,6 +15,7 @@ export default class NotificationsController {
       .where('projectId', currentProject?.id)
       .select('id', 'title', 'externalId', 'createdAt')
       .orderBy('createdAt', 'desc')
+      .orderBy('id', 'desc')
 
     return inertia.render('notifications/index', {
       notifications,

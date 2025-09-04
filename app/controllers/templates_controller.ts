@@ -18,6 +18,7 @@ export default class TemplatesController {
       .where('notifications.project_id', currentProject?.id)
       .select('templates.*', 'notifications.title as notification_title')
       .orderBy('templates.created_at', 'desc')
+      .orderBy('templates.id', 'desc')
 
     if (channel && Object.values(Channel).includes(channel)) {
       query = query.where('templates.channel', channel)
