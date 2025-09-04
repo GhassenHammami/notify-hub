@@ -20,6 +20,8 @@ import {
   FolderKanban,
   Calendar,
   CheckCircle,
+  Star,
+  StarOff,
 } from 'lucide-react'
 
 interface Project extends BaseProject {
@@ -185,6 +187,12 @@ const ProjectShow: InertiaPage<ProjectShowProps> = ({ project }) => {
                   <div className="flex-1">
                     <div className="flex items-center gap-2">
                       <h2 className="text-2xl font-bold text-gray-900">{project.name}</h2>
+                      {project.isDefault && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                          <Star className="h-3 w-3" />
+                          Default
+                        </span>
+                      )}
                       {currentProject?.id === project.id && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-800">
                           <CheckCircle className="h-3 w-3" />
@@ -212,32 +220,89 @@ const ProjectShow: InertiaPage<ProjectShowProps> = ({ project }) => {
                   </div>
                 </div>
 
-                <div className="mb-6 rounded-lg border border-gray-200 bg-gray-50 p-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h3 className="text-sm font-medium text-gray-900">Project Status</h3>
-                      <p className="text-sm text-gray-600">
-                        {project.isActive
-                          ? 'This project is currently active and can send notifications.'
-                          : 'This project is inactive and cannot send notifications.'}
-                      </p>
+                <div className="mb-6 space-y-4">
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-900">Project Status</h3>
+                        <p className="text-sm text-gray-600">
+                          {project.isActive
+                            ? 'This project is currently active and can send notifications.'
+                            : 'This project is inactive and cannot send notifications.'}
+                        </p>
+                      </div>
+                      <Form
+                        action={route('projects.toggleActive', {
+                          params: { id: project.id.toString() },
+                        })}
+                        method="patch"
+                      >
+                        {({ processing, submit }) => (
+                          <Toggle
+                            checked={project.isActive}
+                            onChange={() => submit()}
+                            disabled={processing}
+                            label="Active"
+                            size="lg"
+                          />
+                        )}
+                      </Form>
                     </div>
-                    <Form
-                      action={route('projects.toggleActive', {
-                        params: { id: project.id.toString() },
-                      })}
-                      method="patch"
-                    >
-                      {({ processing, submit }) => (
-                        <Toggle
-                          checked={project.isActive}
-                          onChange={() => submit()}
-                          disabled={processing}
-                          label="Active"
-                          size="lg"
-                        />
-                      )}
-                    </Form>
+                  </div>
+
+                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                    <div className="flex items-center justify-between">
+                      <div>
+                        <h3 className="text-sm font-medium text-gray-900">Default Project</h3>
+                        <p className="text-sm text-gray-600">
+                          {project.isDefault
+                            ? 'This project is set as your default and will be automatically selected when you log in.'
+                            : 'Set this project as your default to have it automatically selected when you log in.'}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        {project.isDefault ? (
+                          <Form action={route('projects.unsetDefault')} method="patch">
+                            {({ processing }) => (
+                              <button
+                                type="submit"
+                                disabled={processing}
+                                className="inline-flex items-center rounded-lg border border-yellow-300 bg-yellow-100 px-3 py-2 text-sm font-medium text-yellow-800 transition-colors hover:bg-yellow-200 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
+                              >
+                                {processing ? (
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-yellow-300 border-t-yellow-600" />
+                                ) : (
+                                  <StarOff className="h-4 w-4" />
+                                )}
+                                <span className="ml-1">Remove Default</span>
+                              </button>
+                            )}
+                          </Form>
+                        ) : (
+                          <Form
+                            action={route('projects.setAsDefault', {
+                              params: { id: project.id.toString() },
+                            })}
+                            method="patch"
+                          >
+                            {({ processing }) => (
+                              <button
+                                type="submit"
+                                disabled={processing}
+                                className="inline-flex items-center rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm font-medium text-yellow-700 transition-colors hover:bg-yellow-100 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
+                              >
+                                {processing ? (
+                                  <div className="h-4 w-4 animate-spin rounded-full border-2 border-yellow-300 border-t-yellow-600" />
+                                ) : (
+                                  <Star className="h-4 w-4" />
+                                )}
+                                <span className="ml-1">Set as Default</span>
+                              </button>
+                            )}
+                          </Form>
+                        )}
+                      </div>
+                    </div>
                   </div>
                 </div>
 

@@ -24,6 +24,11 @@ export default class Project extends BaseModel {
   @column()
   declare isActive: boolean
 
+  @column({
+    consume: (value: number) => Boolean(value),
+  })
+  declare isDefault: boolean
+
   @hasMany(() => Notification)
   declare notifications: HasMany<typeof Notification>
 
@@ -35,4 +40,23 @@ export default class Project extends BaseModel {
 
   @column.dateTime({ autoUpdate: true })
   declare updatedAt: DateTime
+
+  static async setAsDefault(projectId: number, userId: number): Promise<void> {
+    await this.transaction(async (trx) => {
+      await this.query({ client: trx }).where('userId', userId).update({ isDefault: false })
+
+      await this.query({ client: trx })
+        .where('id', projectId)
+        .where('userId', userId)
+        .update({ isDefault: true })
+    })
+  }
+
+  static async getDefaultProject(userId: number): Promise<Project | null> {
+    return await this.query().where('userId', userId).where('isDefault', true).first()
+  }
+
+  static async unsetDefault(userId: number): Promise<void> {
+    await this.query().where('userId', userId).update({ isDefault: false })
+  }
 }

@@ -10,6 +10,7 @@ export default class extends BaseSchema {
       table.integer('user_id').unsigned().references('id').inTable('users').onDelete('CASCADE')
       table.string('api_key', 255).notNullable().unique()
       table.boolean('is_active').defaultTo(true)
+      table.boolean('is_default').defaultTo(false)
 
       table.timestamp('created_at').notNullable()
       table.timestamp('updated_at').notNullable()

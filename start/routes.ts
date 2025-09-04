@@ -49,6 +49,9 @@ router
 
 router
   .group(() => {
+    router
+      .patch('/unset-default', '#controllers/projects_controller.unsetDefault')
+      .as('unsetDefault')
     router.get('/', '#controllers/projects_controller.index').as('index')
     router.get('/create', '#controllers/projects_controller.create').as('create')
     router.post('/', '#controllers/projects_controller.store').as('store')
@@ -61,6 +64,9 @@ router
     router
       .patch('/:id/toggle-active', '#controllers/projects_controller.toggleActive')
       .as('toggleActive')
+    router
+      .patch('/:id/set-default', '#controllers/projects_controller.setAsDefault')
+      .as('setAsDefault')
     router.post('/switch', '#controllers/projects_controller.switch').as('switch')
   })
   .prefix('/projects')

@@ -40,7 +40,13 @@ export interface DashboardData {
 }
 
 export default class DashboardController {
-  async show({ inertia, auth }: HttpContext) {
+  async show({ inertia, auth, session }: HttpContext) {
+    if (!session.get('current_project')) {
+      const defaultProject = await Project.getDefaultProject(auth.user!.id)
+      if (defaultProject) {
+        session.put('current_project', defaultProject)
+      }
+    }
     const startOfWeek = DateTime.now().minus({ days: 6 }).startOf('day')
     const endOfToday = DateTime.now().endOf('day')
 

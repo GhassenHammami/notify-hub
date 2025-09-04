@@ -7,8 +7,9 @@ export default class ProjectsController {
   async index({ inertia, auth }: HttpContext) {
     const projects = await Project.query()
       .where('userId', auth.user!.id)
+      .orderBy('isDefault', 'desc')
       .orderBy('createdAt', 'desc')
-      .select('id', 'name', 'apiKey', 'createdAt', 'updatedAt', 'isActive')
+      .select('id', 'name', 'apiKey', 'createdAt', 'updatedAt', 'isActive', 'isDefault')
     return inertia.render('projects/index', { projects })
   }
 
@@ -142,6 +143,27 @@ export default class ProjectsController {
 
     const status = project.isActive ? 'activated' : 'deactivated'
     session.flash('success', `Project "${project.name}" has been ${status} successfully!`)
+
+    return response.redirect().back()
+  }
+
+  async setAsDefault({ response, auth, params, session }: HttpContext) {
+    const project = await Project.query()
+      .where('id', params.id)
+      .where('userId', auth.user!.id)
+      .firstOrFail()
+
+    await Project.setAsDefault(project.id, auth.user!.id)
+
+    session.flash('success', `Project "${project.name}" has been set as your default project!`)
+
+    return response.redirect().back()
+  }
+
+  async unsetDefault({ response, auth, session }: HttpContext) {
+    await Project.unsetDefault(auth.user!.id)
+
+    session.flash('success', 'Default project has been unset successfully!')
 
     return response.redirect().back()
   }

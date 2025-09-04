@@ -3,11 +3,23 @@ import Project from '#models/project'
 
 export default class ProjectMiddleware {
   async handle({ session, response, auth }: HttpContext, next: () => Promise<void>) {
-    const currentProject = session.get('current_project')
+    let currentProject = session.get('current_project')
 
     if (!currentProject) {
-      session.flash('error', 'Please select a project to view its resources.')
-      return response.redirect().toRoute('projects.index')
+      const user = auth.user
+      if (!user) {
+        session.flash('error', 'You must be logged in to access project resources.')
+        return response.redirect().toRoute('auth.login')
+      }
+
+      const defaultProject = await Project.getDefaultProject(user.id)
+      if (defaultProject) {
+        session.put('current_project', defaultProject)
+        currentProject = defaultProject
+      } else {
+        session.flash('error', 'Please select a project to view its resources.')
+        return response.redirect().toRoute('projects.index')
+      }
     }
 
     try {

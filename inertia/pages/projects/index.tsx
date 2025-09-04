@@ -14,6 +14,7 @@ import {
   EyeOff,
   CheckCircle,
   Calendar,
+  Star,
 } from 'lucide-react'
 
 interface ProjectsIndexProps {
@@ -29,7 +30,6 @@ const ProjectsIndex: InertiaPage<ProjectsIndexProps> = ({ projects }) => {
     projectId: null,
   })
   const { delete: destroy, processing } = useForm()
-  const { processing: switchingProject } = useForm()
 
   const copyApiKey = async (apiKey: string, projectId: number) => {
     try {
@@ -125,6 +125,12 @@ const ProjectsIndex: InertiaPage<ProjectsIndexProps> = ({ projects }) => {
                   <div className="flex flex-col gap-1">
                     <div className="flex items-center gap-2">
                       <h3 className="text-xl font-semibold text-gray-900">{project.name}</h3>
+                      {project.isDefault && (
+                        <span className="inline-flex items-center gap-1 rounded-full bg-yellow-100 px-2 py-1 text-xs font-medium text-yellow-800">
+                          <Star className="h-3 w-3" />
+                          Default
+                        </span>
+                      )}
                       {currentProject?.id === project.id && (
                         <span className="inline-flex items-center gap-1 rounded-full bg-indigo-100 px-2 py-1 text-xs font-medium text-indigo-800">
                           <CheckCircle className="h-3 w-3" />
@@ -212,28 +218,56 @@ const ProjectsIndex: InertiaPage<ProjectsIndexProps> = ({ projects }) => {
                     View Details →
                   </Link>
 
-                  {currentProject?.id !== project.id && (
-                    <Form
-                      method="post"
-                      action={route('projects.switch')}
-                      transform={(data) => ({ ...data, projectId: project.id })}
-                    >
-                      <button
-                        type="submit"
-                        disabled={switchingProject}
-                        className="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-3 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md"
+                  <div className="flex items-center gap-2">
+                    {!project.isDefault && (
+                      <Form
+                        method="patch"
+                        action={route('projects.setAsDefault', {
+                          params: { id: project.id.toString() },
+                        })}
                       >
-                        {switchingProject ? (
-                          <div className="flex items-center space-x-2">
-                            <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
-                            <span>Selecting...</span>
-                          </div>
-                        ) : (
-                          'Select Project'
+                        {({ processing }) => (
+                          <button
+                            type="submit"
+                            disabled={processing}
+                            className="inline-flex items-center rounded-lg border border-yellow-300 bg-yellow-50 px-3 py-2 text-sm font-medium text-yellow-700 transition-colors hover:bg-yellow-100 focus:ring-2 focus:ring-yellow-500 focus:ring-offset-2 focus:outline-none disabled:opacity-50"
+                            title="Set as default project"
+                          >
+                            {processing ? (
+                              <div className="h-4 w-4 animate-spin rounded-full border-2 border-yellow-300 border-t-yellow-600" />
+                            ) : (
+                              <Star className="h-4 w-4" />
+                            )}
+                          </button>
                         )}
-                      </button>
-                    </Form>
-                  )}
+                      </Form>
+                    )}
+
+                    {currentProject?.id !== project.id && (
+                      <Form
+                        method="post"
+                        action={route('projects.switch')}
+                        transform={(data) => ({ ...data, projectId: project.id })}
+                      >
+                        {({ processing }) => (
+                          <button
+                            type="submit"
+                            disabled={processing}
+                            className="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-3 py-2 text-sm font-medium whitespace-nowrap text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md"
+                          >
+                            {processing ? (
+                              <div className="flex items-center space-x-2">
+                                <div className="h-4 w-4 animate-spin rounded-full border-2 border-white/30 border-t-white" />
+                                <span>Selecting...</span>
+                              </div>
+                            ) : (
+                              'Select Project'
+                            )}
+                          </button>
+                        )}
+                      </Form>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
