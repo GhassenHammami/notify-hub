@@ -21,32 +21,12 @@ import { getChannelBadgeClasses } from '~/utils/channels'
 import { route } from '@izzyjs/route/client'
 import PhoneMockup from '~/components/templates/PhoneMockup'
 import { formatChannelName } from '#utils/formatChannelName'
+import { templateChannelConfig } from '~/utils/templateChannelConfig'
 
 interface TemplatesCreateProps {
   notifications: Partial<Notification>[]
   selectedNotification?: Partial<Notification> | null
   existingTemplates: Partial<Template>[]
-}
-
-export const channelConfig: Record<
-  Channel,
-  { color: string; description: string; placeholder: string }
-> = {
-  [Channel.EMAIL]: {
-    color: `${getChannelBadgeClasses(Channel.EMAIL)}`,
-    description: 'Email templates support rich formatting and longer content',
-    placeholder: 'Write your email content here...',
-  },
-  [Channel.SMS]: {
-    color: `${getChannelBadgeClasses(Channel.SMS)}`,
-    description: 'SMS templates should be concise and under 160 characters',
-    placeholder: 'Write your SMS message here...',
-  },
-  [Channel.PUSH]: {
-    color: `${getChannelBadgeClasses(Channel.PUSH)}`,
-    description: 'Push notifications are brief and actionable',
-    placeholder: 'Write your push notification here...',
-  },
 }
 
 const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
@@ -242,7 +222,7 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                                 className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${
                                   isExisting
                                     ? 'border-gray-200 bg-gray-100 text-gray-600'
-                                    : channelConfig[channel].color
+                                    : templateChannelConfig[channel].color
                                 }`}
                               >
                                 {isExisting ? 'Created' : channel}

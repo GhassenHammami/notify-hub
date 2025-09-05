@@ -1,11 +1,11 @@
 import { Head, useForm, Link } from '@inertiajs/react'
 import { FileText, ArrowLeft, Save, Bell } from 'lucide-react'
 import { InertiaPage } from '~/app/app'
-import { channelConfig } from './create'
 import ChannelIcon from '~/components/ui/ChannelIcon'
 import Template from '#models/template'
 import PhoneMockup from '~/components/templates/PhoneMockup'
 import { route } from '@izzyjs/route/client'
+import { templateChannelConfig } from '~/utils/templateChannelConfig'
 
 interface TemplatesEditProps {
   template: Template
@@ -84,7 +84,7 @@ const TemplatesEdit: InertiaPage<TemplatesEditProps> = ({ template }) => {
                           </label>
                           <div className="flex items-center gap-3">
                             <span
-                              className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-bold ${channelConfig[template.channel].color}`}
+                              className={`inline-flex items-center rounded-full px-3 py-1 text-sm font-bold ${templateChannelConfig[template.channel].color}`}
                             >
                               {template.channel}
                             </span>
