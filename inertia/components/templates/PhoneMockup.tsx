@@ -1,7 +1,7 @@
 import React from 'react'
 import Channel from '#enums/channel'
 import { Phone, Mail, Bell } from 'lucide-react'
-import { formatChannelName } from '~/utils/channels'
+import { formatChannelName } from '#utils/formatChannelName'
 
 interface PhoneMockupProps {
   channel: Channel
@@ -207,7 +207,7 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
       <div className="mb-4 flex flex-col items-center">
         <h3 className="mb-2 text-lg font-semibold text-gray-900">Preview</h3>
         <p className="text-sm text-gray-600">
-          See how your {formatChannelName(channel)} will look on mobile
+          See how your {formatChannelName(channel, 'insideSentence')} will look on mobile
         </p>
       </div>
 

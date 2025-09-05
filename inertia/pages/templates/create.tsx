@@ -20,6 +20,7 @@ import Notification from '#models/notification'
 import { getChannelBadgeClasses } from '~/utils/channels'
 import { route } from '@izzyjs/route/client'
 import PhoneMockup from '~/components/templates/PhoneMockup'
+import { formatChannelName } from '#utils/formatChannelName'
 
 interface TemplatesCreateProps {
   notifications: Partial<Notification>[]
@@ -270,7 +271,10 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                         <Info className="mt-0.5 h-4 w-4 flex-shrink-0 text-blue-600" />
                         <p className="text-sm text-blue-700">
                           <strong>Note:</strong> Templates already exist for{' '}
-                          {existingTemplateChannels.join(', ')}.
+                          {existingTemplateChannels
+                            .map((channel) => formatChannelName(channel!))
+                            .join(', ')}
+                          .
                           {existingTemplateChannels.length < channels.length
                             ? ' You can create the remaining template(s) or edit existing ones.'
                             : ' All channel templates are already created for this notification.'}

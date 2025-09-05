@@ -3,7 +3,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react'
 import { InertiaPage } from '~/app/app'
 import Modal from '~/components/ui/Modal'
 import Project from '#models/project'
-import { formatChannelName, getChannelGradient } from '~/utils/channels'
+import { getChannelGradient } from '~/utils/channels'
 import ChannelIcon from '~/components/ui/ChannelIcon'
 import Notification from '#models/notification'
 import Template from '#models/template'
@@ -22,6 +22,7 @@ import {
   AlertCircle,
   FileEdit,
 } from 'lucide-react'
+import { formatChannelName } from '#utils/formatChannelName'
 
 interface ApiUsage {
   totalDeliveries: number

@@ -3,6 +3,7 @@ import Template from '#models/template'
 import Project from '#models/project'
 import Notification from '#models/notification'
 import Channel from '../enums/channel.js'
+import { formatChannelName } from '#utils/formatChannelName'
 
 export default class TemplatesController {
   async index({ inertia, session, request }: HttpContext) {
@@ -120,7 +121,7 @@ export default class TemplatesController {
     if (existingTemplate) {
       session.flash(
         'error',
-        `A ${data.channel.toLowerCase()} template already exists for this notification.`
+        `${formatChannelName(channel, 'withArticle')} template already exists for this notification.`
       )
       return response.redirect().back()
     }
@@ -131,7 +132,7 @@ export default class TemplatesController {
       content: data.content,
     })
 
-    session.flash('success', `${data.channel} template created successfully!`)
+    session.flash('success', `${formatChannelName(channel)} template created successfully!`)
     return response.redirect().toPath('/templates')
   }
 
@@ -210,7 +211,10 @@ export default class TemplatesController {
     template.content = data.content.trim()
     await template.save()
 
-    session.flash('success', `${template.channel} template updated successfully!`)
+    session.flash(
+      'success',
+      `${formatChannelName(template.channel)} template updated successfully!`
+    )
     return response.redirect().toPath('/templates')
   }
 
@@ -227,7 +231,7 @@ export default class TemplatesController {
     const templateChannel = template.channel
     await template.delete()
 
-    session.flash('success', `${templateChannel} template deleted successfully!`)
+    session.flash('success', `${formatChannelName(templateChannel)} template deleted successfully!`)
     return response.redirect().toPath('/templates')
   }
 }

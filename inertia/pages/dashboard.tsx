@@ -4,9 +4,10 @@ import { BarChart3, Bell, FolderOpen, FileText, TrendingUp, LucideIcon } from 'l
 import NotificationsChart from '~/components/dashboard/NotificationsChart'
 import RecentNotifications from '~/components/dashboard/RecentNotifications'
 import type { DashboardData } from '#controllers/dashboard_controller'
-import { formatChannelName, getChannelBg, getChannelText } from '~/utils/channels'
+import { getChannelBg, getChannelText } from '~/utils/channels'
 import ChannelIcon from '~/components/ui/ChannelIcon'
 import { route } from '@izzyjs/route/client'
+import { formatChannelName } from '#utils/formatChannelName'
 
 export interface StatsCardProps {
   title: string

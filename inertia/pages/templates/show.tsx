@@ -2,10 +2,11 @@ import { useState } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { InertiaPage } from '~/app/app'
 import Modal from '~/components/ui/Modal'
-import { getChannelBg, formatChannelName, getChannelBadgeClasses } from '~/utils/channels'
+import { getChannelBg, getChannelBadgeClasses } from '~/utils/channels'
 import { ArrowLeft, FileText, Edit, Trash2, Bell, Calendar, Hash } from 'lucide-react'
 import ChannelIcon from '~/components/ui/ChannelIcon'
 import Template from '#models/template'
+import { formatChannelName } from '#utils/formatChannelName'
 
 interface TemplatesShowProps {
   template: Template
@@ -45,7 +46,7 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
           <div className="mt-4 flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-                {template.channel} Template
+                {formatChannelName(template.channel)} Template
               </h1>
               <p className="mt-2 text-lg text-gray-600">
                 Template details for {template.notification.title}
@@ -138,9 +139,18 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
               <div className="border-b border-gray-200 bg-gradient-to-r from-gray-50 to-gray-100 px-6 py-4">
                 <div className="flex items-center justify-between">
                   <h3 className="text-lg font-semibold text-gray-900">Template Content</h3>
-                  <div className="flex items-center space-x-2 text-sm text-gray-500">
-                    <FileText className="h-4 w-4" />
-                    <span>{template.channel} Content</span>
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center space-x-2 text-sm text-gray-500">
+                      <FileText className="h-4 w-4" />
+                      <span>{formatChannelName(template.channel)} Content</span>
+                    </div>
+                    <Link
+                      href={route('templates.edit', { params: { id: template.id.toString() } })}
+                      className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+                    >
+                      <Edit className="mr-1.5 h-3.5 w-3.5" />
+                      Edit
+                    </Link>
                   </div>
                 </div>
               </div>
