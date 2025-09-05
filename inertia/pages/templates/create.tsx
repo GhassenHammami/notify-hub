@@ -4,24 +4,16 @@ import { InertiaPage } from '~/app/app'
 import Project from '#models/project'
 import Template from '#models/template'
 import Channel from '#enums/channel'
-import {
-  FileText,
-  Save,
-  Bell,
-  Hash,
-  FileText as DocumentIcon,
-  ChevronDown,
-  AlertCircle,
-  Info,
-  ArrowLeft,
-} from 'lucide-react'
+import AttributeType from '#enums/attribute_type'
+import { FileText, Save, Bell, Hash, ChevronDown, AlertCircle, Info, ArrowLeft } from 'lucide-react'
 import ChannelIcon from '~/components/ui/ChannelIcon'
 import Notification from '#models/notification'
-import { getChannelBadgeClasses } from '~/utils/channels'
 import { route } from '@izzyjs/route/client'
 import PhoneMockup from '~/components/templates/PhoneMockup'
+import TemplateEditor, { TemplateEditorAttribute } from '~/components/templates/TemplateEditor'
 import { formatChannelName } from '#utils/formatChannelName'
 import { templateChannelConfig } from '~/utils/templateChannelConfig'
+import { b64toBlob } from '~/utils/b64toBlob'
 
 interface TemplatesCreateProps {
   notifications: Partial<Notification>[]
@@ -39,11 +31,100 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
     selectedNotification ? null : Channel.EMAIL
   )
 
-  const { data, setData, post, processing, errors } = useForm({
+  const [channelContents, setChannelContents] = useState<Record<Channel, string>>({
+    [Channel.EMAIL]: '',
+    [Channel.SMS]: '',
+    [Channel.PUSH]: '',
+  })
+
+  const { data, setData, post, processing, errors, transform } = useForm({
     notification_id: selectedNotification?.id || '',
     channel: selectedChannel,
     content: '',
+    attributes: [] as TemplateEditorAttribute[],
+    images: undefined as File[] | undefined,
   })
+
+  transform((payload) => {
+    if (selectedChannel === Channel.EMAIL) {
+      let template = payload.content
+      const files: File[] = []
+      const imageMap = new Map<string, string>()
+      const regex = /<img[^>]+src="(data:image\/[^"]+)"/g
+
+      let match
+      let i = 0
+
+      while ((match = regex.exec(payload.content)) !== null) {
+        const base64 = match[1]
+
+        let imgId = imageMap.get(base64)
+        if (!imgId) {
+          const mimeMatch = base64.match(/^data:(image\/\w+);base64,/)
+          const mimeType = mimeMatch ? mimeMatch[1] : 'image/png'
+
+          const blob = b64toBlob(base64.split(',')[1], mimeType)
+          const file = new File([blob], `image_${i}.${mimeType.split('/')[1]}`, { type: mimeType })
+          files.push(file)
+
+          imgId = `__IMG_${i}__`
+          imageMap.set(base64, imgId)
+
+          i++
+        }
+
+        template = template.replace(base64, imgId)
+      }
+
+      return {
+        ...payload,
+        content: template,
+        images: files.length > 0 ? files : undefined,
+      }
+    }
+
+    return { ...payload }
+  })
+
+  const extractAttributes = (content: string): string[] => {
+    const regex = /\{\{([^}]+)\}\}/g
+    const attributes = new Set<string>()
+    let match
+
+    while ((match = regex.exec(content)) !== null) {
+      attributes.add(match[1])
+    }
+
+    return Array.from(attributes).sort()
+  }
+
+  const handleContentChange = (content: string) => {
+    if (!selectedChannel) return
+
+    const attributes = extractAttributes(content)
+
+    const currentAttributeNames = data.attributes.map((attr) => attr.name)
+    const missingAttributes = attributes.filter((v) => !currentAttributeNames.includes(v))
+
+    const mergedAttributes = [
+      ...data.attributes,
+      ...missingAttributes.map((attributeName) => ({
+        name: attributeName,
+        type: AttributeType.TEXT,
+        isRequired: true,
+      })),
+    ]
+
+    const updatedAttributes = mergedAttributes.filter((attr) => attributes.includes(attr.name))
+
+    setChannelContents((prev) => ({
+      ...prev,
+      [selectedChannel]: content,
+    }))
+
+    setData('content', content)
+    setData('attributes', updatedAttributes)
+  }
 
   const getExistingTemplatesForNotification = (notificationId: number) => {
     return existingTemplates
@@ -63,8 +144,7 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
 
   useEffect(() => {
     if (!data.notification_id) {
-      setSelectedChannel(Channel.EMAIL)
-      setData('channel', Channel.EMAIL)
+      setChannel(Channel.EMAIL)
       return
     }
 
@@ -74,26 +154,49 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
 
     if (availableChannels.length === 1) {
       const remainingChannel = availableChannels[0]
-      setSelectedChannel(remainingChannel)
-      setData('channel', remainingChannel)
+      setChannel(remainingChannel)
       return
     }
 
     if (availableChannels.length > 0) {
       if (availableChannels.length === channels.length && selectedChannel) return
       const firstAvailable = availableChannels[0]
-      setSelectedChannel(firstAvailable)
-      setData('channel', firstAvailable)
+      setChannel(firstAvailable)
       return
     }
 
-    setSelectedChannel(null)
-    setData('channel', null)
+    setData('content', '')
+    setData('attributes', [])
+    setChannel(null)
   }, [data.notification_id, existingTemplateChannels, channels])
 
   const handleChannelChange = (channel: Channel) => {
+    setChannel(channel)
+  }
+
+  const setChannel = (channel: Channel | null) => {
+    if (selectedChannel && channel) {
+      setChannelContents((prev) => ({
+        ...prev,
+        [selectedChannel]: data.content,
+      }))
+    }
+
     setSelectedChannel(channel)
     setData('channel', channel)
+
+    if (channel) {
+      const content = channelContents[channel]
+      setData('content', content)
+
+      const attributes = extractAttributes(content)
+      const updatedAttributes = attributes.map((attributeName) => ({
+        name: attributeName,
+        type: AttributeType.TEXT,
+        isRequired: true,
+      }))
+      setData('attributes', updatedAttributes)
+    }
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -125,11 +228,9 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
           </div>
         </header>
 
-        <div className={`mx-auto ${selectedChannel ? 'max-w-6xl' : 'max-w-3xl'}`}>
-          <div
-            className={`grid gap-8 max-sm:grid-cols-1 ${selectedChannel ? 'lg:grid-cols-2' : ''}`}
-          >
-            <div className="lg:col-span-1">
+        <div className={`mx-auto lg:px-7 2xl:px-14 ${!selectedChannel ? 'max-w-6xl' : ''}`}>
+          <div className="flex gap-8">
+            <div className="flex-1">
               <form onSubmit={handleSubmit} className="">
                 <div className="rounded-xl border-2 border-gray-200 bg-gradient-to-br from-white to-gray-50 p-8 shadow-lg transition-all duration-200 hover:border-gray-300">
                   <h2 className="mb-6 flex items-center gap-3 text-2xl font-bold text-gray-900">
@@ -145,7 +246,7 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                   <div className="relative">
                     <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-4">
                       <div className="rounded-full bg-blue-100 p-1.5">
-                        <DocumentIcon className="h-4 w-4 text-blue-600" />
+                        <FileText className="h-4 w-4 text-blue-600" />
                       </div>
                     </div>
 
@@ -230,7 +331,7 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                             </div>
                           </button>
 
-                          {isExisting && existingTemplate && (
+                          {isExisting && existingTemplate && existingTemplate.id && (
                             <div className="absolute -top-2 -right-2">
                               <Link
                                 href={route('templates.edit', {
@@ -268,41 +369,15 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                   {errors.channel && <p className="mt-2 text-sm text-red-600">{errors.channel}</p>}
                 </div>
 
-                <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-                  <h2 className="mb-4 flex items-center gap-2 text-xl font-semibold text-gray-900">
-                    <FileText className="h-5 w-5 text-indigo-600" />
-                    Template Content
-                  </h2>
-                  {selectedChannel && (
-                    <div className={`mb-4 rounded-lg p-4 ${channelConfig[selectedChannel].color}`}>
-                      <p className={`text-sm ${channelConfig[selectedChannel].color}`}>
-                        💡 <strong>Tip:</strong> {channelConfig[selectedChannel].description}
-                      </p>
-                    </div>
-                  )}
-
-                  <div>
-                    <label className="mb-2 block text-sm font-medium text-gray-700">
-                      Template Content
-                    </label>
-                    <textarea
-                      value={data.content}
-                      onChange={(e) => setData('content', e.target.value)}
-                      rows={8}
-                      className="block w-full rounded-lg border-gray-300 px-4 py-3 text-sm focus:border-indigo-500 focus:ring-indigo-500"
-                      placeholder={
-                        selectedChannel
-                          ? channelConfig[selectedChannel].placeholder
-                          : 'Select a channel first...'
-                      }
-                      required
-                      disabled={!selectedChannel}
-                    />
-                    {errors.content && (
-                      <p className="mt-2 text-sm text-red-600">{errors.content}</p>
-                    )}
-                  </div>
-                </div>
+                <TemplateEditor
+                  content={data.content}
+                  onContentChange={(content) => handleContentChange(content)}
+                  selectedChannel={selectedChannel}
+                  onAttributesChange={(attributes) => setData('attributes', attributes)}
+                  errors={errors}
+                  disabled={!selectedChannel}
+                  attributes={data.attributes}
+                />
 
                 <div className="flex items-center justify-end space-x-3 pt-6">
                   <Link
@@ -340,14 +415,15 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                 </div>
               </form>
             </div>
-            {selectedChannel && (
-              <div className="flex items-start justify-center lg:sticky lg:top-8 lg:col-span-1">
+            {selectedChannel && selectedChannel !== Channel.EMAIL && (
+              <div className="sticky top-24 z-30 h-fit self-start max-xl:hidden">
                 <PhoneMockup
                   channel={selectedChannel}
                   content={data.content}
                   notificationTitle={
                     notifications.find((n) => n.id === data.notification_id)?.title
                   }
+                  attributes={data.attributes}
                 />
               </div>
             )}

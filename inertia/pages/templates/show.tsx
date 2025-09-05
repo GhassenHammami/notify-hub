@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Head, Link, useForm } from '@inertiajs/react'
 import { InertiaPage } from '~/app/app'
 import Modal from '~/components/ui/Modal'
@@ -8,6 +8,7 @@ import ChannelIcon from '~/components/ui/ChannelIcon'
 import Template from '#models/template'
 import { formatChannelName } from '#utils/formatChannelName'
 import { route } from '@izzyjs/route/client'
+import Channel from '#enums/channel'
 
 interface TemplatesShowProps {
   template: Template
@@ -27,6 +28,45 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
       },
     })
   }
+
+  const iframeRef = useRef<HTMLIFrameElement>(null)
+
+  useEffect(() => {
+    if (!iframeRef.current) return
+    const iframe = iframeRef.current
+    const doc = iframe.contentDocument || iframe.contentWindow?.document
+    if (!doc) return
+
+    const adjustHeight = () => {
+      if (iframe.contentWindow?.document.body) {
+        iframe.style.height = `${iframe.contentWindow.document.body.scrollHeight}px`
+      }
+    }
+
+    setTimeout(adjustHeight, 50)
+
+    window.addEventListener('resize', adjustHeight)
+
+    const observer = new MutationObserver(adjustHeight)
+    observer.observe(doc.body, { childList: true, subtree: true })
+
+    const images = doc.body.querySelectorAll('img')
+    images.forEach((img) => {
+      if (!img.complete) {
+        img.addEventListener('load', adjustHeight)
+        img.addEventListener('error', adjustHeight)
+      }
+    })
+
+    return () => {
+      window.removeEventListener('resize', adjustHeight)
+      observer.disconnect()
+      images.forEach((img) => {
+        img.removeEventListener('load', adjustHeight)
+        img.removeEventListener('error', adjustHeight)
+      })
+    }
+  }, [template.content])
 
   return (
     <>
@@ -159,7 +199,16 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
               <div className="p-6">
                 <div className="rounded-lg bg-gray-50 p-4">
                   <pre className="font-mono text-sm whitespace-pre-wrap text-gray-700">
-                    {template.content}
+                    {template.channel === Channel.EMAIL ? (
+                      <iframe
+                        ref={iframeRef}
+                        srcDoc={template.content}
+                        style={{ width: '100%', border: 'none' }}
+                        title="Email Preview"
+                      />
+                    ) : (
+                      template.content
+                    )}
                   </pre>
                 </div>
               </div>
@@ -220,6 +269,36 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
                 </div>
               </div>
             </div>
+
+            {template.attributes && template.attributes.length > 0 && (
+              <div className="rounded-2xl bg-white p-4 shadow-lg">
+                <h3 className="mb-3 text-lg font-semibold text-gray-900">Template Attributes</h3>
+                <div className="space-y-3">
+                  {template.attributes.map((attribute, index) => (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between rounded-lg border border-gray-200 p-3"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-sm font-medium text-gray-900">{attribute.name}</span>
+                        <span className="inline-flex items-center rounded-full bg-blue-100 px-2 py-0.5 text-xs font-medium text-blue-800">
+                          {attribute.type}
+                        </span>
+                        <span
+                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${
+                            attribute.isRequired
+                              ? 'bg-red-100 text-red-800'
+                              : 'bg-yellow-100 text-yellow-800'
+                          }`}
+                        >
+                          {attribute.isRequired ? 'Required' : 'Optional'}
+                        </span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

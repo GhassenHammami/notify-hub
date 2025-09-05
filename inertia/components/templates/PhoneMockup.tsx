@@ -1,13 +1,19 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Channel from '#enums/channel'
-import { Phone, Mail, Bell } from 'lucide-react'
+import AttributeType from '#enums/attribute_type'
+import { Phone, Bell, Play } from 'lucide-react'
+import Modal from '~/components/ui/Modal'
 import { formatChannelName } from '#utils/formatChannelName'
+import Attribute from '#models/attribute'
+
+type TemplateEditorAttribute = Pick<Attribute, 'name' | 'type' | 'isRequired'>
 
 interface PhoneMockupProps {
   channel: Channel
   content: string
   notificationTitle?: string
   screenWidth?: number
+  attributes: TemplateEditorAttribute[]
 }
 
 const PhoneMockup: React.FC<PhoneMockupProps> = ({
@@ -15,7 +21,11 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
   content,
   notificationTitle,
   screenWidth = 300,
+  attributes,
 }) => {
+  const [showAttributeTester, setShowAttributeTester] = useState(false)
+  const [attributeValues, setAttributeValues] = useState<Record<string, string>>({})
+
   const styles = React.useMemo(() => {
     const getSizeWithRatio = (size: number) => {
       const sizeRatio = Math.floor((screenWidth * size) / 1080)
@@ -91,6 +101,68 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
     }
   }, [])
 
+  const renderHighlightedContent = (text: string) => {
+    if (!text) return null
+
+    const regex = /\{\{([^}]+)\}\}/g
+    const parts: React.ReactNode[] = []
+    let lastIndex = 0
+    let match
+
+    while ((match = regex.exec(text)) !== null) {
+      if (match.index > lastIndex) {
+        parts.push(<span key={`text-${match.index}`}>{text.slice(lastIndex, match.index)}</span>)
+      }
+
+      parts.push(
+        <span
+          key={`attribute-${match.index}`}
+          className="inline-block rounded border border-blue-200 bg-blue-100 px-1 py-0.5 font-mono text-xs text-blue-800"
+        >
+          {`{{${match[1]}}}`}
+        </span>
+      )
+
+      lastIndex = match.index + match[0].length
+    }
+
+    if (lastIndex < text.length) {
+      parts.push(<span key="text-end">{text.slice(lastIndex)}</span>)
+    }
+
+    return parts.length > 0 ? parts : text
+  }
+
+  const renderContentWithValues = (text: string) => {
+    if (!text) return null
+
+    const hasValues = Object.values(attributeValues).some((value) => value.trim() !== '')
+    if (!hasValues) {
+      return renderHighlightedContent(text)
+    }
+
+    let result = text
+    attributes?.forEach((attribute) => {
+      const value = attributeValues[attribute.name]
+      if (value && value.trim() !== '') {
+        result = result.replace(new RegExp(`\\{\\{${attribute.name}\\}\\}`, 'g'), value)
+      }
+    })
+
+    return renderHighlightedContent(result)
+  }
+
+  const handleAttributeValueChange = (attribute: TemplateEditorAttribute, value: string) => {
+    setAttributeValues((prev) => ({
+      ...prev,
+      [attribute.name]: value,
+    }))
+  }
+
+  const resetAttributeValues = () => {
+    setAttributeValues({})
+  }
+
   const renderSMSContent = () => (
     <div className="h-full bg-gray-50 p-4">
       <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-2">
@@ -103,13 +175,13 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
         <span className="text-xs text-gray-500">Now</span>
       </div>
 
-      <div className="space-y-3">
-        <div className="flex justify-end">
-          <div className="max-w-xs rounded-2xl bg-blue-500 px-4 py-2">
-            <p className="text-sm text-white">
-              {content || 'Your SMS message will appear here...'}
-            </p>
-          </div>
+      <div className="flex max-h-5/6 justify-end space-y-3">
+        <div className="max-h-full max-w-xs overflow-hidden rounded-2xl bg-blue-500 px-4 py-2">
+          <p className="text-sm text-white">
+            {content
+              ? renderContentWithValues(content)
+              : `Your ${formatChannelName(channel, 'insideSentence')} message will appear here...`}
+          </p>
         </div>
       </div>
     </div>
@@ -127,50 +199,21 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
         <span className="text-xs text-gray-500">Now</span>
       </div>
 
-      <div className="space-y-3">
-        <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
+      <div className="flex max-h-5/6 space-y-3">
+        <div className="w-full max-w-full overflow-hidden rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
           <div className="flex items-start space-x-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-100">
               <Bell className="h-5 w-5 text-indigo-600" />
             </div>
             <div className="flex-1">
               <p className="text-sm font-medium text-gray-900">
-                {notificationTitle || 'Notification'}
+                {notificationTitle ? renderContentWithValues(notificationTitle) : 'Notification'}
               </p>
               <p className="mt-1 text-sm text-gray-600">
-                {content || 'Your push notification will appear here...'}
+                {content
+                  ? renderContentWithValues(content)
+                  : `Your ${formatChannelName(channel, 'insideSentence')} notification will appear here...`}
               </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  )
-
-  const renderEmailContent = () => (
-    <div className="h-full bg-gray-50 p-4">
-      <div className="mb-4 flex items-center justify-between border-b border-gray-200 pb-2">
-        <div className="flex items-center space-x-2">
-          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-500">
-            <Mail className="h-4 w-4 text-white" />
-          </div>
-          <span className="font-medium text-gray-900">Mail</span>
-        </div>
-        <span className="text-xs text-gray-500">Now</span>
-      </div>
-
-      <div className="space-y-3">
-        <div className="rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
-          <div className="space-y-2">
-            <div className="border-b border-gray-100 pb-2">
-              <p className="text-xs text-gray-500">From: noreply@myapp.com</p>
-              <p className="text-xs text-gray-500">To: user@example.com</p>
-              <p className="text-xs text-gray-500">
-                Subject: {notificationTitle || 'Notification'}
-              </p>
-            </div>
-            <div className="flex min-h-[60px] items-center justify-center">
-              <p className="text-center text-sm text-gray-400">Email preview not available</p>
             </div>
           </div>
         </div>
@@ -195,8 +238,6 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
         return renderSMSContent()
       case Channel.PUSH:
         return renderPushContent()
-      case Channel.EMAIL:
-        return renderEmailContent()
       default:
         return null
     }
@@ -209,6 +250,16 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
         <p className="text-sm text-gray-600">
           See how your {formatChannelName(channel, 'insideSentence')} will look on mobile
         </p>
+        {attributes && attributes.length > 0 && (
+          <button
+            type="button"
+            onClick={() => setShowAttributeTester(true)}
+            className="mt-3 inline-flex items-center gap-2 rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+          >
+            <Play className="h-4 w-4" />
+            Test with Attributes
+          </button>
+        )}
       </div>
 
       <div style={styles.container}>
@@ -226,6 +277,72 @@ const PhoneMockup: React.FC<PhoneMockupProps> = ({
           </div>
         </div>
       </div>
+
+      <Modal
+        isOpen={showAttributeTester}
+        onClose={() => setShowAttributeTester(false)}
+        title="Test Attributes"
+        size="md"
+        icon={<Play className="h-5 w-5 text-indigo-600" />}
+        iconClassName="bg-indigo-100"
+        showFooter={true}
+        footer={
+          <>
+            <button
+              type="button"
+              onClick={resetAttributeValues}
+              className="rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50"
+            >
+              Reset Values
+            </button>
+            <button
+              type="button"
+              onClick={() => setShowAttributeTester(false)}
+              className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+            >
+              Submit
+            </button>
+          </>
+        }
+      >
+        <div className="p-6">
+          <p className="mb-4 text-sm text-gray-600">
+            Set values for your attributes to see how the template will look with real data.
+          </p>
+
+          <div className="space-y-3">
+            {attributes?.map((attribute) => (
+              <div key={attribute.name} className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">{attribute.name}</label>
+                {attribute.type === AttributeType.DATE ? (
+                  <input
+                    type="date"
+                    value={attributeValues[attribute.name] || ''}
+                    onChange={(e) => handleAttributeValueChange(attribute, e.target.value)}
+                    className="block w-full rounded-md border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  />
+                ) : attribute.type === AttributeType.NUMBER ? (
+                  <input
+                    type="number"
+                    value={attributeValues[attribute.name] || ''}
+                    onChange={(e) => handleAttributeValueChange(attribute, e.target.value)}
+                    placeholder={`Enter number for ${attribute.name}`}
+                    className="block w-full rounded-md border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  />
+                ) : (
+                  <input
+                    type="text"
+                    value={attributeValues[attribute.name] || ''}
+                    onChange={(e) => handleAttributeValueChange(attribute, e.target.value)}
+                    placeholder={`Enter text for ${attribute.name}`}
+                    className="block w-full rounded-md border-gray-300 px-3 py-2 text-sm focus:border-indigo-500 focus:ring-indigo-500"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+      </Modal>
     </div>
   )
 }

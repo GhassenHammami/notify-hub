@@ -21,7 +21,9 @@ export default class Attribute extends BaseModel {
   @column()
   declare type: AttributeType
 
-  @column()
+  @column({
+    consume: (value: number) => Boolean(value),
+  })
   declare isRequired: boolean
 
   @hasMany(() => AttributeValue)

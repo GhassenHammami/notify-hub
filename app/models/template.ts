@@ -1,8 +1,9 @@
 import { DateTime } from 'luxon'
-import { BaseModel, column, belongsTo } from '@adonisjs/lucid/orm'
-import type { BelongsTo } from '@adonisjs/lucid/types/relations'
+import { BaseModel, column, belongsTo, hasMany } from '@adonisjs/lucid/orm'
+import type { BelongsTo, HasMany } from '@adonisjs/lucid/types/relations'
 import Notification from './notification.js'
 import Channel from '#enums/channel'
+import Attribute from './attribute.js'
 
 export default class Template extends BaseModel {
   @column({ isPrimary: true })
@@ -19,6 +20,9 @@ export default class Template extends BaseModel {
 
   @belongsTo(() => Notification)
   declare notification: BelongsTo<typeof Notification>
+
+  @hasMany(() => Attribute)
+  declare attributes: HasMany<typeof Attribute>
 
   @column.dateTime({ autoCreate: true })
   declare createdAt: DateTime

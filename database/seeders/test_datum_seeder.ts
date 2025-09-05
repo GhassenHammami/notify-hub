@@ -191,7 +191,74 @@ export default class extends BaseSeeder {
     const template1 = await Template.create({
       notificationId: notification1.id,
       channel: Channel.EMAIL,
-      content: 'Hi {{customerName}}, your order #{{orderNumber}} has been confirmed!',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div id="i8rp" class="container" style="margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; float: none; box-sizing: border-box; max-width: 600px; margin: 0 auto; background-color: rgb(255, 255, 255); border-radius: 8px; overflow: hidden; box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding: 20px;">
+      <div id="ichy" class="header" style="background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; box-sizing: border-box; background-color: rgb(44, 62, 80); color: white; padding: 32px 24px; text-align: center;">
+         <h1 id="irgl" style="margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; box-sizing: border-box; margin: 0; font-size: 28px; font-weight: 600; color: white;">
+            🎉 Order Confirmed!
+         </h1>
+      </div>
+      <div id="i4po5" class="content" style="padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; box-sizing: border-box; padding: 32px 24px; color: rgb(55, 65, 81); background-color: rgb(249, 249, 249);">
+         <h2 id="iegz6" style="margin-top: 0px; box-sizing: border-box; color: rgb(31, 41, 55); margin: 0 0 20px 0; font-size: 20px;">
+            Hi {{customerName}},
+         </h2>
+         <p id="inwsr" style="box-sizing: border-box; margin: 0 0 20px 0;">
+            Great news! Your order has been confirmed and is being prepared for shipment.
+         </p>
+         <div id="i5i0a" class="order-details" style="box-sizing: border-box; background-color: rgb(255, 255, 255); padding: 20px; border-radius: 5px; margin: 20px 0;">
+            <h3 id="iui1k" style="box-sizing: border-box; margin: 0 0 15px 0; font-size: 18px; color: rgb(31, 41, 55);">
+               Order Details
+            </h3>
+            <p id="iw74d" style="box-sizing: border-box; margin: 0 0 10px 0;"><strong style="box-sizing: border-box;">Order Number:</strong> {{orderNumber}}
+            </p>
+            <p id="ivdbi" style="box-sizing: border-box; margin: 0 0 10px 0;"><strong style="box-sizing: border-box;">Status:</strong> Confirmed
+            </p>
+            <p id="ix8s4" style="box-sizing: border-box; margin: 0 0 10px 0;"><strong style="box-sizing: border-box;">Estimated Delivery:</strong> 3-5 business days
+            </p>
+         </div>
+         <p id="immwk" style="box-sizing: border-box; margin: 0 0 20px 0;">
+            We'll send you another email with tracking information once your order ships.
+         </p>
+         <p id="ixtj9" style="box-sizing: border-box; margin: 0;">
+            Thank you for your business!
+         </p>
+      </div>
+      <div id="if2bu" class="footer" style="padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; box-sizing: border-box; background-color: rgb(249, 250, 251); padding: 24px; text-align: center; color: rgb(107, 114, 128); font-size: 14px;">
+         <p id="iaauz" style="box-sizing: border-box; margin: 0;">
+            © 2025 Your Company. All rights reserved.
+         </p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template2 = await Template.create({
@@ -209,7 +276,54 @@ export default class extends BaseSeeder {
     const template4 = await Template.create({
       notificationId: notification2.id,
       channel: Channel.EMAIL,
-      content: 'Your order #{{orderNumber}} has been shipped! Track at {{trackingUrl}}',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="ipkj" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="iv7z" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background-color: #22C55E; color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">📦 Your Order is on the Way!</h1>
+      </div>
+      <div class="content" id="ijn7" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi {{customerName}},</p>
+         <p style="box-sizing: border-box;">Good news! Your order has been shipped and is on its way to you.</p>
+         <div class="card" id="iaadz" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; text-align: center;">
+            <p style="box-sizing: border-box;"><strong style="box-sizing: border-box;">Order Number:</strong> {{orderNumber}}</p>
+            <a href="{{trackingUrl}}" id="i9lnh" style="box-sizing: border-box; display: inline-block; margin-top: 10px; padding: 12px 20px; background: #3B82F6; color: white; border-radius: 5px; text-decoration: none;">Track Package</a>
+         </div>
+         <p id="im7s2" style="box-sizing: border-box; margin-top: 20px;">You can track your package anytime using the button above.</p>
+      </div>
+      <div class="footer" id="i29wf" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Your Company. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template5 = await Template.create({
@@ -227,7 +341,54 @@ export default class extends BaseSeeder {
     const template7 = await Template.create({
       notificationId: notification4.id,
       channel: Channel.EMAIL,
-      content: '{{friendName}} wants to be your friend!',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="iix9" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="ib3t" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background-color: #8B5CF6; color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">👥 New Friend Request</h1>
+      </div>
+      <div class="content" id="i6xn" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi {{customerName}},</p>
+         <p style="box-sizing: border-box;">Someone wants to connect with you!</p>
+         <div class="card" id="i78kr" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; text-align: center;">
+            <div id="igzfr" style="box-sizing: border-box; font-size: 50px;">👤</div>
+            <p style="box-sizing: border-box;"><strong style="box-sizing: border-box;">{{friendName}}</strong> wants to be your friend</p>
+            <div id="iz1tq" style="box-sizing: border-box; margin-top: 15px;"><a href="#" id="ilamo" style="box-sizing: border-box; display: inline-block; margin-right: 10px; padding: 10px 16px; background: #22C55E; color: white; border-radius: 5px; text-decoration: none;">Accept Request</a><a href="#" id="ikre6" style="box-sizing: border-box; display: inline-block; padding: 10px 16px; background: #EF4444; color: white; border-radius: 5px; text-decoration: none;">Decline</a></div>
+         </div>
+      </div>
+      <div class="footer" id="iqirx" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Your Social Platform. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template8 = await Template.create({
@@ -245,7 +406,56 @@ export default class extends BaseSeeder {
     const template10 = await Template.create({
       notificationId: notification7.id,
       channel: Channel.EMAIL,
-      content: 'Daily bonus of {{bonusAmount}} coins is available!',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="iubm" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="i0w4" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; background-color: #ffffff; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background: linear-gradient(90deg,#F97316,#F59E0B); color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">🎁 Daily Bonus Available!</h1>
+      </div>
+      <div class="content" id="ivzn" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi {{customerName}},</p>
+         <p style="box-sizing: border-box;">Don't miss out on your daily reward!</p>
+         <div class="card" id="itatq" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; border: 2px solid #F97316; text-align: center;">
+            <div id="isb3s" style="box-sizing: border-box; font-size: 50px;">💰</div>
+            <h3 style="box-sizing: border-box;">Daily Bonus</h3>
+            <p id="ifjwj" style="box-sizing: border-box; font-size: 28px; font-weight: bold;">{{bonusAmount}}</p>
+            <a href="#" id="ilv7l" style="box-sizing: border-box; display: inline-block; margin-top: 10px; padding: 12px 20px; background: #F97316; color: white; border-radius: 5px; text-decoration: none;">Claim Now</a>
+            <p id="im7z4" style="box-sizing: border-box; margin-top: 10px; font-size: 12px; color: #EF4444;">Bonus expires in 24 hours</p>
+         </div>
+      </div>
+      <div class="footer" id="ihgoo" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Your Game Studio. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template11 = await Template.create({
@@ -257,7 +467,54 @@ export default class extends BaseSeeder {
     const template12 = await Template.create({
       notificationId: notification9.id,
       channel: Channel.EMAIL,
-      content: 'Meeting reminder: {{meetingTitle}} at {{meetingTime}}',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="iq66" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="i4m8" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background-color: #3B82F6; color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">⏰ Meeting Reminder</h1>
+      </div>
+      <div class="content" id="itxm" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi {{customerName}},</p>
+         <p style="box-sizing: border-box;">Don't forget your upcoming meeting!</p>
+         <div class="card" id="i9ntj" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #3B82F6; text-align: center;">
+            <p style="box-sizing: border-box;"><strong style="box-sizing: border-box;">{{meetingTitle}}</strong></p>
+            <p id="itsxw" style="box-sizing: border-box; margin: 10px 0; font-weight: bold;">📅 {{meetingTime}}</p>
+            <a href="#" id="iss1c" style="box-sizing: border-box; display: inline-block; margin-top: 10px; padding: 12px 20px; background: #22C55E; color: white; border-radius: 5px; text-decoration: none;">Join Meeting</a>
+         </div>
+      </div>
+      <div class="footer" id="inymc" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Your CRM System. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template13 = await Template.create({
@@ -269,7 +526,55 @@ export default class extends BaseSeeder {
     const template14 = await Template.create({
       notificationId: notification11.id,
       channel: Channel.EMAIL,
-      content: 'Anomaly detected in {{metricName}}: {{anomalyValue}}',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="ia6m" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="i9tg" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background-color: #EF4444; color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">⚠️ Anomaly Detected</h1>
+      </div>
+      <div class="content" id="ikpw" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi {{customerName}},</p>
+         <p style="box-sizing: border-box;">We detected unusual patterns in your data.</p>
+         <div class="card" id="i8nsj" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; border: 2px solid #EF4444; text-align: center;">
+            <h3 style="box-sizing: border-box;">🚨 Anomaly Details</h3>
+            <p style="box-sizing: border-box;"><strong style="box-sizing: border-box;">Metric:</strong> {{metricName}}</p>
+            <p id="irqai" style="box-sizing: border-box; font-size: 28px; font-weight: bold; color: #B91C1C;">{{anomalyValue}}</p>
+            <a href="#" id="i4b07" style="box-sizing: border-box; display: inline-block; margin-top: 10px; padding: 12px 20px; background: #EF4444; color: white; border-radius: 5px; text-decoration: none;">View Dashboard</a>
+         </div>
+      </div>
+      <div class="footer" id="i8dfu" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Analytics Platform. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template15 = await Template.create({
@@ -281,7 +586,55 @@ export default class extends BaseSeeder {
     const template16 = await Template.create({
       notificationId: notification13.id,
       channel: Channel.EMAIL,
-      content: 'New order received: {{orderNumber}} for {{customerName}}',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="ipjx" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="i1ay" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background-color: #22C55E; color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">📦 New Order Received</h1>
+      </div>
+      <div class="content" id="isl7" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi Team,</p>
+         <p style="box-sizing: border-box;">You have a new order to process!</p>
+         <div class="card" id="ixtlm" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #22C55E; text-align: center;">
+            <p id="i1d37" style="box-sizing: border-box; font-size: 24px; font-weight: bold;">Order #{{orderNumber}}</p>
+            <p style="box-sizing: border-box;">Customer: {{customerName}}</p>
+            <p style="box-sizing: border-box;">Status: Pending | Priority: High</p>
+            <a href="#" id="im6nj" style="box-sizing: border-box; display: inline-block; margin-top: 10px; padding: 12px 20px; background: #22C55E; color: white; border-radius: 5px; text-decoration: none;">View Order Details</a>
+         </div>
+      </div>
+      <div class="footer" id="iv4da" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Inventory Management. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     const template17 = await Template.create({
@@ -293,7 +646,55 @@ export default class extends BaseSeeder {
     const template18 = await Template.create({
       notificationId: notification15.id,
       channel: Channel.EMAIL,
-      content: 'Customer feedback received: {{rating}}/5 stars',
+      content: `<body id="ie9i" style="box-sizing: border-box; margin: 0;">
+   <div class="container" id="i24o" style="box-sizing: border-box; margin-top: 0px; margin-right: auto; margin-bottom: 0px; margin-left: auto; border-top-left-radius: 8px; border-top-right-radius: 8px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; overflow-x: hidden; overflow-y: hidden; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background-color: rgb(249, 250, 251); float: none; max-width: 600px; margin: 0 auto; background: #fff; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.1); padding: 20px;">
+      <div class="header" id="igw6" style="box-sizing: border-box; background-position-x: initial; background-position-y: initial; background-origin: initial; background-clip: initial; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; font-family: Arial, Helvetica, sans-serif; background-image: unset; background-repeat: unset; background-position: unset; background-attachment: unset; background-size: unset; background-image-color: unset; background-image-gradient: unset; background-image-gradient-dir: unset; background-image-gradient-type: unset; background-color: #F97316; color: white; padding: 32px 24px; text-align: center;">
+         <h1 style="box-sizing: border-box; margin-top: 0px; margin-right: 0px; margin-bottom: 0px; margin-left: 0px; font-size: 28px; font-weight: 600; color: white;">⭐ Customer Feedback</h1>
+      </div>
+      <div class="content" id="ia4o" style="box-sizing: border-box; padding-top: 32px; padding-right: 24px; padding-bottom: 32px; padding-left: 24px; background-color: #F9F9F9; padding: 32px 24px; color: #374151;">
+         <p style="box-sizing: border-box;">Hi Support Team,</p>
+         <p style="box-sizing: border-box;">New customer feedback has been received!</p>
+         <div class="card" id="iydo1" style="box-sizing: border-box; background: #fff; padding: 20px; border-radius: 5px; margin-top: 20px; border-left: 4px solid #F97316; text-align: center;">
+            <p style="box-sizing: border-box;">⭐⭐⭐⭐⭐</p>
+            <p id="ibpl4" style="box-sizing: border-box; font-size: 24px; font-weight: bold;">Rating: {{rating}}</p>
+            <p style="box-sizing: border-box;">Status: New | Priority: Normal</p>
+            <a href="#" id="ivxml" style="box-sizing: border-box; display: inline-block; margin-top: 10px; padding: 12px 20px; background: #F97316; color: white; border-radius: 5px; text-decoration: none;">View Full Feedback</a>
+         </div>
+      </div>
+      <div class="footer" id="itb8j" style="box-sizing: border-box; background-color: rgb(249, 250, 251); padding-top: 24px; padding-right: 24px; padding-bottom: 24px; padding-left: 24px; background: #F9FAFB; padding: 24px; text-align: center; color: #6B7280; font-size: 14px;">
+         <p style="box-sizing: border-box;">© 2025 Customer Support. All rights reserved.</p>
+      </div>
+   </div>
+</body>
+<style>
+   @media (max-width: 480px) {
+   .container {
+   width: 90%;
+   margin-top: 0px;
+   margin-right: auto;
+   margin-bottom: 0px;
+   margin-left: auto;
+   }
+   .header {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .content {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   .footer {
+   padding-top: 20px;
+   padding-right: 20px;
+   padding-bottom: 20px;
+   padding-left: 20px;
+   }
+   }
+</style>`,
     })
 
     // Create test attributes for templates

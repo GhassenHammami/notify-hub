@@ -1,0 +1,510 @@
+/* Override GrapesJS default color variables */
+.gjs-one-bg {
+  background-color: #f9fafb !important;
+}
+
+.gjs-one-color {
+  color: #374151 !important;
+}
+
+.gjs-one-color-h:hover {
+  color: #374151 !important;
+}
+
+.gjs-two-bg {
+  background-color: #e5e7eb !important;
+}
+
+.gjs-two-color {
+  color: #1f2937 !important;
+}
+
+.gjs-two-color-h:hover {
+  color: #6b7280 !important;
+}
+
+.gjs-three-bg {
+  background-color: #ffffff !important;
+}
+
+.gjs-three-color {
+  color: #1f2937 !important;
+}
+
+.gjs-three-color-h:hover {
+  color: #1f2937 !important;
+}
+
+.gjs-four-bg {
+  background-color: #3b82f6 !important;
+}
+
+.gjs-four-color {
+  color: #3b82f6 !important;
+}
+
+.gjs-four-color-h:hover {
+  color: #2563eb !important;
+}
+
+/* Override the main color variables that GrapesJS uses */
+.gjs-bg-main,
+.gjs-sm-colorp-c,
+.gjs-off-prv {
+  background-color: #f9fafb !important;
+}
+
+.gjs-color-main,
+.gjs-sm-stack #gjs-sm-add,
+.gjs-off-prv {
+  color: #374151 !important;
+  fill: #374151 !important;
+}
+
+.gjs-color-active {
+  color: #1f2937 !important;
+  fill: #1f2937 !important;
+}
+
+.gjs-color-warn {
+  color: #f59e0b !important;
+  fill: #f59e0b !important;
+}
+
+.gjs-color-hl {
+  color: #3b82f6 !important;
+  fill: #3b82f6 !important;
+}
+
+/*override*/
+.gjs-title,
+.gjs-layer-name,
+.gjs-no-app,
+.gjs-sm-title {
+  font-weight: 500 !important;
+}
+
+.gjs-color-warn {
+  color: #dc2626;
+}
+
+.gjs-clm-tags #gjs-clm-checkbox,
+.gjs-clm-tags #gjs-clm-close {
+  color: #374151 !important;
+}
+
+.gjs-clm-tags #gjs-clm-new {
+  color: #374151;
+  padding: 5px 6px;
+  display: none;
+  background-color: #f3f4f6;
+}
+
+.gjs-sm-sector .gjs-sm-field select,
+.gjs-clm-tags .gjs-sm-field select,
+.gjs-sm-sector .gjs-clm-field select,
+.gjs-clm-tags .gjs-clm-field select,
+.gjs-sm-sector .gjs-sm-field input,
+.gjs-clm-tags .gjs-sm-field input,
+.gjs-sm-sector .gjs-clm-field input,
+.gjs-clm-tags .gjs-clm-field input,
+.gjs-field input,
+.gjs-field select,
+.gjs-field textarea {
+  color: #374151;
+  background-color: #ffffff;
+  border: 1px solid #d1d5db;
+  font-size: 13px;
+  border-radius: 4px;
+}
+
+.gjs-field input:focus,
+.gjs-field select:focus,
+.gjs-field textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+.gjs-field-color-picker {
+  background-color: #f3f4f6 !important;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+}
+
+.gjs-radio-item input:checked + .gjs-radio-item-label {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.gjs-sm-sector .gjs-sm-stack #gjs-sm-add,
+.gjs-clm-tags .gjs-sm-stack #gjs-sm-add {
+  color: #3b82f6;
+}
+
+/* Additional Notify Hub themed styles */
+.gjs-pn-btn {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  border-radius: 6px;
+}
+
+.gjs-pn-btn:hover {
+  background-color: #f3f4f6;
+  border-color: #d1d5db;
+}
+
+.gjs-pn-active {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border-color: #3b82f6;
+}
+
+.gjs-pn-panel {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.gjs-cv-canvas {
+  background-color: #f9fafb;
+}
+
+.gjs-block {
+  background-color: #ffffff;
+  border: 1px solid #e5e7eb;
+  color: #374151;
+  border-radius: 6px;
+}
+
+.gjs-block:hover {
+  background-color: #f3f4f6;
+  border-color: #3b82f6;
+}
+
+.gjs-sm-sector {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.gjs-sm-title {
+  background-color: #f9fafb;
+  color: #1f2937;
+  border-color: #e5e7eb;
+}
+
+.gjs-sm-property {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.gjs-sm-property:hover {
+  background-color: #f3f4f6;
+}
+
+.gjs-btn-prim {
+  background-color: #3b82f6;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+}
+
+.gjs-btn-prim:hover {
+  background-color: #2563eb;
+}
+
+.gjs-copy-combined-code {
+  background-color: #10b981;
+  margin-left: 1rem;
+}
+
+.gjs-copy-combined-code:hover {
+  background-color: #059669;
+}
+
+.gjs-layers-c {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.gjs-layer {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+  color: #374151;
+}
+
+.gjs-layer:hover {
+  background-color: #f3f4f6;
+}
+
+.gjs-layer.gjs-layer-selected {
+  background-color: #dbeafe;
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.gjs-toolbar {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.gjs-toolbar-item {
+  color: #374151;
+}
+
+.gjs-toolbar-item:hover {
+  background-color: #f3f4f6;
+  color: #1f2937;
+}
+
+.gjs-badge {
+  background-color: #3b82f6;
+  color: #ffffff;
+}
+
+.gjs-resizer {
+  background-color: #3b82f6;
+}
+
+.gjs-resizer-h {
+  background-color: #3b82f6;
+}
+
+.gjs-resizer-v {
+  background-color: #3b82f6;
+}
+
+.gjs-highlighter {
+  border: 2px solid #3b82f6;
+}
+
+.gjs-selected {
+  outline: 2px solid #3b82f6;
+}
+
+.gjs-hovered {
+  outline: 1px solid #8b5cf6;
+}
+
+/* Purple accent for special elements */
+.gjs-four-color-h:hover {
+  color: #8b5cf6;
+}
+
+/* Success states */
+.gjs-color-success {
+  color: #059669;
+}
+
+/* Error states */
+.gjs-color-error {
+  color: #dc2626;
+}
+
+/* Override GrapesJS selection and highlighting colors */
+.gjs-cv-canvas .gjs-highlighter,
+.gjs-cv-canvas .gjs-highlighter-sel {
+  outline: 2px solid #3b82f6 !important;
+  outline-offset: -2px !important;
+}
+
+.gjs-cv-canvas .gjs-highlighter {
+  outline: 1px solid #3b97e3 !important;
+  outline-offset: -1px !important;
+}
+
+.gjs-cv-canvas .gjs-highlighter-sel {
+  outline: 2px solid #3b97e3 !important;
+  outline-offset: -2px !important;
+}
+
+.gjs-cv-canvas .gjs-highlighter-warning {
+  outline: 3px solid #f59e0b !important;
+}
+
+/* Override component selection colors */
+.gjs-cv-canvas .gjs-comp-selected {
+  outline: 3px solid #3b82f6 !important;
+}
+
+/* Override hover states */
+*.gjs-com-hover,
+div.gjs-com-hover {
+  outline: 1px solid #3b82f6 !important;
+}
+
+*.gjs-com-hover-delete,
+div.gjs-com-hover-delete {
+  outline: 2px solid #dc2626 !important;
+  opacity: 0.5 !important;
+}
+
+*.gjs-com-hover-move,
+div.gjs-com-hover-move {
+  outline: 3px solid #f59e0b !important;
+}
+
+/* Override toolbar colors */
+.gjs-toolbar {
+  background-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+.gjs-toolbar-item {
+  color: #ffffff !important;
+}
+
+.gjs-toolbar-item:hover {
+  background-color: #2563eb !important;
+}
+
+/* Override resizer colors */
+.gjs-resizer-h {
+  border: 3px solid #3b82f6 !important;
+  background-color: #ffffff !important;
+}
+
+/* Override badge colors */
+.gjs-com-badge,
+.gjs-badge {
+  background-color: #3b82f6 !important;
+  color: #ffffff !important;
+}
+
+.gjs-com-badge-red {
+  background-color: #dc2626 !important;
+}
+
+.gjs-badge-warning {
+  background-color: #f59e0b !important;
+}
+
+/* Override drag helper */
+.gjs-drag-helper {
+  background-color: #3b82f6 !important;
+}
+
+/* Override selected parent border */
+.gjs-selected-parent {
+  border: 1px solid #f59e0b !important;
+}
+
+/* Override placeholder colors */
+.gjs-placeholder.horizontal,
+.gjs-com-placeholder.horizontal {
+  border-color: transparent #10b981 !important;
+}
+
+.gjs-placeholder.vertical,
+.gjs-com-placeholder.vertical {
+  border-color: #10b981 transparent !important;
+}
+
+.gjs-placeholder-int,
+.gjs-com-placeholder-int {
+  background-color: #10b981 !important;
+}
+
+/* Override layer selection */
+.gjs-layer.gjs-selected .gjs-layer-title {
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+.gjs-layer.gjs-hovered .gjs-layer-title {
+  background-color: rgba(59, 130, 246, 0.05) !important;
+}
+
+/* Override any remaining default colors with specific selectors */
+.gjs-cv-canvas *[style*='rgb(255, 0, 255)'],
+.gjs-cv-canvas *[style*='rgb(255,0,255)'],
+.gjs-cv-canvas *[style*='#ff00ff'],
+.gjs-cv-canvas *[style*='#f0f'] {
+  border-color: #3b82f6 !important;
+  background-color: rgba(59, 130, 246, 0.1) !important;
+}
+
+/* Override code export/editor colors - Dark theme with Notify Hub colors */
+.gjs-cm-editor-c {
+  background-color: #1f2937 !important;
+}
+
+.gjs-cm-editor {
+  background-color: #111827 !important;
+  border: 1px solid #374151 !important;
+  border-radius: 6px !important;
+}
+
+.gjs-cm-editor#gjs-cm-htmlmixed {
+  border-right: 1px solid #374151 !important;
+}
+
+.gjs-cm-editor#gjs-cm-css {
+  border-left: 1px solid #374151 !important;
+}
+
+.gjs-cm-editor #gjs-cm-title {
+  background-color: #374151 !important;
+  color: #f9fafb !important;
+  border-bottom: 1px solid #4b5563 !important;
+}
+
+.gjs-cm-editor#gjs-cm-htmlmixed #gjs-cm-title {
+  color: #60a5fa !important;
+}
+
+.gjs-cm-editor#gjs-cm-css #gjs-cm-title {
+  color: #34d399 !important;
+}
+
+/* Override CodeMirror editor colors - Dark theme */
+.gjs-cm-editor-c .CodeMirror {
+  background-color: #111827 !important;
+  color: #f9fafb !important;
+  border: 1px solid #374151 !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .CodeMirror-gutters {
+  background-color: #1f2937 !important;
+  border-right: 1px solid #374151 !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .CodeMirror-linenumber {
+  color: #9ca3af !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .CodeMirror-cursor {
+  border-left: 1px solid #60a5fa !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .CodeMirror-selected {
+  background-color: rgba(96, 165, 250, 0.2) !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .CodeMirror-focused .CodeMirror-selected {
+  background-color: rgba(96, 165, 250, 0.3) !important;
+}
+
+/* CodeMirror syntax highlighting for dark theme */
+.gjs-cm-editor-c .CodeMirror .cm-tag {
+  color: #f87171 !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .cm-attribute {
+  color: #60a5fa !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .cm-string {
+  color: #34d399 !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .cm-comment {
+  color: #6b7280 !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .cm-keyword {
+  color: #c084fc !important;
+}
+
+.gjs-cm-editor-c .CodeMirror .cm-property {
+  color: #fbbf24 !important;
+}
