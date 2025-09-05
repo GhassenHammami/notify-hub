@@ -56,11 +56,11 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
               </p>
             </div>
             <Link
-              className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
               href={route('notifications.create')}
+              className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
             >
-              <Plus className="mr-2 h-4 w-4" />
-              New Notification
+              <Plus className="h-4 w-4 min-sm:mr-2" />
+              <p className="max-sm:hidden">New Notification</p>
             </Link>
           </div>
         </header>
@@ -80,7 +80,7 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
                 href={route('notifications.create')}
                 className="inline-flex items-center rounded-lg bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
               >
-                <Plus className="mr-2 h-5 w-5" />
+                <Plus className="mr-2 size-5" />
                 Create Your First Notification
               </Link>
             </div>
@@ -99,7 +99,96 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
               </div>
             </div>
 
-            <div className="overflow-x-auto">
+            <div className="block xl:hidden">
+              <div className="space-y-4">
+                {notifications.map((notification) => (
+                  <div
+                    key={notification.id}
+                    className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm"
+                  >
+                    <div className="flex items-start justify-between">
+                      <div className="flex items-center space-x-3">
+                        <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600">
+                          <Bell className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <div className="text-sm font-medium text-gray-900">
+                            {notification.title}
+                          </div>
+                          <div className="text-xs text-gray-500">ID: {notification.id}</div>
+                          <span className="mt-1 inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-xs font-medium text-green-800">
+                            <div className="mr-1.5 h-2 w-2 rounded-full bg-green-400"></div>
+                            Active
+                          </span>
+                        </div>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Link
+                          href={route('notifications.show', {
+                            params: { id: notification.id.toString() },
+                          })}
+                          className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-2 py-1 text-xs font-medium text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-50"
+                          title="View details"
+                        >
+                          <Eye className="size-4 sm:size-5" />
+                        </Link>
+                        <Link
+                          href={route('notifications.edit', {
+                            params: { id: notification.id.toString() },
+                          })}
+                          className="inline-flex items-center rounded-lg border border-emerald-300 bg-emerald-50 px-2 py-1 text-xs font-medium text-emerald-700 transition-colors hover:border-emerald-400 hover:bg-emerald-100"
+                          title="Edit notification"
+                        >
+                          <Edit className="size-4 sm:size-5" />
+                        </Link>
+                        <Link
+                          href={`${route('templates.create')}?notification=${notification.id}`}
+                          className="inline-flex items-center rounded-lg border border-indigo-300 bg-indigo-50 px-2 py-1 text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-100"
+                          title="Create template for this notification"
+                        >
+                          <FileEdit className="size-4 sm:size-5" />
+                        </Link>
+                        <button
+                          onClick={() => openDeleteModal(notification)}
+                          className="inline-flex items-center rounded-lg border border-red-300 bg-red-50 px-2 py-1 text-xs font-medium text-red-700 transition-colors hover:border-red-400 hover:bg-red-100"
+                          title="Delete notification"
+                        >
+                          <Trash2 className="size-4 sm:size-5" />
+                        </button>
+                      </div>
+                    </div>
+
+                    <div className="mt-3">
+                      <div className="mb-2 text-xs font-medium text-gray-600 sm:text-sm">
+                        External ID:
+                      </div>
+                      {notification.externalId ? (
+                        <div className="flex items-center space-x-2">
+                          <Hash className="h-3 w-3 text-gray-400" />
+                          <code className="rounded bg-gray-100 px-2 py-1 font-mono text-xs text-gray-700">
+                            {notification.externalId}
+                          </code>
+                        </div>
+                      ) : (
+                        <span className="text-xs text-gray-400">—</span>
+                      )}
+                    </div>
+
+                    <div className="mt-3 flex items-center text-xs text-gray-500 sm:text-sm">
+                      <Calendar className="mr-2 h-3 w-3" />
+                      Created{' '}
+                      {new Date(notification.createdAt as any).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                      })}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="hidden overflow-x-auto rounded-lg border border-gray-200 xl:block">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
@@ -215,7 +304,7 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
               </table>
             </div>
 
-            <div className="border-t border-gray-200 bg-gray-50 px-6 py-4">
+            <div className="border-t border-gray-200 bg-gray-50 px-6 py-4 max-xl:hidden">
               <div className="flex items-center justify-between text-sm text-gray-500">
                 <div className="flex items-center space-x-4">
                   <span>Ready for templates and delivery</span>
