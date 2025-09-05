@@ -240,12 +240,6 @@ const channelColorClasses: Record<
   },
 }
 
-export const formatChannelName = (channel: Channel) => {
-  return channel === Channel.SMS
-    ? channel
-    : channel.charAt(0).toUpperCase() + channel.slice(1).toLowerCase()
-}
-
 export function getChannelIcon(channel: Channel): LucideIcon {
   return channelIcons[channel]
 }
