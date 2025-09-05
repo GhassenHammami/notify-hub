@@ -128,7 +128,7 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
         <header className="mb-8">
           <div className="flex flex-col space-y-4">
             <Link
-              href="/templates"
+              href={route('templates.index')}
               className="inline-flex items-center text-gray-600 transition-colors hover:text-gray-900"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
@@ -253,7 +253,9 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
                           {isExisting && existingTemplate && (
                             <div className="absolute -top-2 -right-2">
                               <Link
-                                href={`/templates/${existingTemplate.id}/edit`}
+                                href={route('templates.edit', {
+                                  params: { id: existingTemplate.id.toString() },
+                                })}
                                 className="inline-flex items-center rounded-full bg-indigo-600 px-3 py-1 text-xs font-medium text-white shadow-sm transition-colors hover:bg-indigo-700 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                               >
                                 Edit
@@ -324,7 +326,7 @@ const TemplatesCreate: InertiaPage<TemplatesCreateProps> = ({
 
                 <div className="flex items-center justify-end space-x-3 pt-6">
                   <Link
-                    href="/templates"
+                    href={route('templates.index')}
                     className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                   >
                     Cancel

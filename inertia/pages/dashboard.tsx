@@ -112,19 +112,22 @@ const Dashboard: InertiaPage<DashboardData> = ({ stats, chartData, recentNotific
                 </div>
                 <div className="space-y-3">
                   <Link
-                    href={route('notifications.create').path}
+                    href={route('notifications.create')}
                     as="button"
                     className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-left transition-colors hover:border-indigo-300 hover:bg-indigo-50"
                   >
                     <div className="flex items-center justify-between">
-                      <Link href="/notifications/create" className="font-medium text-gray-900">
+                      <Link
+                        href={route('notifications.create')}
+                        className="font-medium text-gray-900"
+                      >
                         Create Notification
                       </Link>
                       <span className="text-sm text-gray-500">→</span>
                     </div>
                   </Link>
                   <Link
-                    href={route('templates.create').path}
+                    href={route('templates.create')}
                     as="button"
                     className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-left transition-colors hover:border-green-300 hover:bg-green-50"
                   >

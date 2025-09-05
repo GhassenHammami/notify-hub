@@ -97,8 +97,8 @@ const TemplatesIndex: InertiaPage<TemplatesIndexProps> = ({
               </p>
             </div>
             <Link
-              href="/templates/create"
               className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+              href={route('templates.create')}
             >
               <Plus className="mr-2 h-4 w-4" />
               New Template
@@ -230,7 +230,7 @@ const TemplatesIndex: InertiaPage<TemplatesIndexProps> = ({
                     : 'Create your first template to start sending notifications.'}
                 </p>
                 <Link
-                  href="/templates/create"
+                  href={route('templates.create')}
                   className="inline-flex items-center rounded-lg bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                 >
                   <Plus className="mr-2 h-5 w-5" />
@@ -318,7 +318,9 @@ const TemplatesIndex: InertiaPage<TemplatesIndexProps> = ({
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end space-x-2">
                             <Link
-                              href={`/templates/${template.id}`}
+                              href={route('templates.show', {
+                                params: { id: template.id.toString() },
+                              })}
                               className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                               title="View details"
                             >
@@ -326,7 +328,9 @@ const TemplatesIndex: InertiaPage<TemplatesIndexProps> = ({
                               View
                             </Link>
                             <Link
-                              href={`/templates/${template.id}/edit`}
+                              href={route('templates.edit', {
+                                params: { id: template.id.toString() },
+                              })}
                               className="inline-flex items-center rounded-lg border border-indigo-300 bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                               title="Edit template"
                             >

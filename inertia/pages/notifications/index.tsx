@@ -5,6 +5,7 @@ import { Plus, Bell, Calendar, Edit, Trash2, Hash, ExternalLink, Eye, FileEdit }
 import Modal from '~/components/ui/Modal'
 import Project from '#models/project'
 import Notification from '#models/notification'
+import { route } from '@izzyjs/route/client'
 
 interface NotificationsIndexProps {
   notifications: Notification[]
@@ -55,8 +56,8 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
               </p>
             </div>
             <Link
-              href="/notifications/create"
               className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
+              href={route('notifications.create')}
             >
               <Plus className="mr-2 h-4 w-4" />
               New Notification
@@ -76,7 +77,7 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
                 organize your notification types.
               </p>
               <Link
-                href="/notifications/create"
+                href={route('notifications.create')}
                 className="inline-flex items-center rounded-lg bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
               >
                 <Plus className="mr-2 h-5 w-5" />
@@ -171,7 +172,9 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
                       <td className="px-6 py-4 text-right">
                         <div className="flex items-center justify-end space-x-2">
                           <Link
-                            href={`/notifications/${notification.id}`}
+                            href={route('notifications.show', {
+                              params: { id: notification.id.toString() },
+                            })}
                             className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-3 py-1.5 text-xs font-medium text-gray-700 transition-colors hover:border-gray-400 hover:bg-gray-50 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                             title="View details"
                           >
@@ -179,7 +182,9 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
                             View
                           </Link>
                           <Link
-                            href={`/notifications/${notification.id}/edit`}
+                            href={route('notifications.edit', {
+                              params: { id: notification.id.toString() },
+                            })}
                             className="inline-flex items-center rounded-lg border border-emerald-300 bg-emerald-50 px-3 py-1.5 text-xs font-medium text-emerald-700 transition-colors hover:border-emerald-400 hover:bg-emerald-100 focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:outline-none"
                             title="Edit notification"
                           >
@@ -187,7 +192,7 @@ const NotificationsIndex: InertiaPage<NotificationsIndexProps> = ({ notification
                             Edit
                           </Link>
                           <Link
-                            href={`/templates/create?notification=${notification.id}`}
+                            href={`${route('templates.create')}?notification=${notification.id}`}
                             className="inline-flex items-center rounded-lg border border-indigo-300 bg-indigo-50 px-3 py-1.5 text-xs font-medium text-indigo-700 transition-colors hover:border-indigo-400 hover:bg-indigo-100 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                             title="Create template for this notification"
                           >

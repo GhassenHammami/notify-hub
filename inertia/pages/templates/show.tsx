@@ -7,6 +7,7 @@ import { ArrowLeft, FileText, Edit, Trash2, Bell, Calendar, Hash } from 'lucide-
 import ChannelIcon from '~/components/ui/ChannelIcon'
 import Template from '#models/template'
 import { formatChannelName } from '#utils/formatChannelName'
+import { route } from '@izzyjs/route/client'
 
 interface TemplatesShowProps {
   template: Template
@@ -36,7 +37,7 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
         <header className="mb-8">
           <div className="flex items-center space-x-4">
             <Link
-              href="/templates"
+              href={route('templates.index')}
               className="inline-flex items-center text-gray-600 transition-colors hover:text-gray-900"
             >
               <ArrowLeft className="mr-2 h-5 w-5" />
@@ -54,7 +55,7 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
             </div>
             <div className="flex space-x-3">
               <Link
-                href={`/templates/${template.id}/edit`}
+                href={route('templates.edit', { params: { id: template.id.toString() } })}
                 className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
               >
                 <Edit className="mr-2 h-4 w-4" />
@@ -170,14 +171,16 @@ const TemplatesShow: InertiaPage<TemplatesShowProps> = ({ template }) => {
               <h3 className="mb-3 text-lg font-semibold text-gray-900">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
-                  href={`/templates/${template.id}/edit`}
+                  href={route('templates.edit', { params: { id: template.id.toString() } })}
                   className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-colors hover:border-indigo-300 hover:bg-indigo-50"
                 >
                   <Edit className="h-5 w-5 text-indigo-600" />
                   <span className="text-sm font-medium text-gray-900">Edit Template</span>
                 </Link>
                 <Link
-                  href={`/notifications/${template.notification.id}`}
+                  href={route('notifications.show', {
+                    params: { id: template.notification.id.toString() },
+                  })}
                   className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-colors hover:border-green-300 hover:bg-green-50"
                 >
                   <Bell className="h-5 w-5 text-green-600" />

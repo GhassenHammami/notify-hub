@@ -23,6 +23,7 @@ import {
   FileEdit,
 } from 'lucide-react'
 import { formatChannelName } from '#utils/formatChannelName'
+import { route } from '@izzyjs/route/client'
 
 interface ApiUsage {
   totalDeliveries: number
@@ -67,7 +68,7 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
         <header className="mb-8">
           <div className="flex items-center space-x-4">
             <Link
-              href="/notifications"
+              href={route('notifications.index')}
               className="inline-flex items-center text-gray-600 transition-colors hover:text-gray-900"
             >
               <ArrowLeft className="mr-2 h-5 w-5" />
@@ -85,7 +86,7 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
             </div>
             <div className="flex space-x-3">
               <Link
-                href={`/notifications/${notification.id}/edit`}
+                href={route('notifications.edit', { params: { id: notification.id.toString() } })}
                 className="inline-flex items-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
               >
                 <Edit className="mr-2 h-4 w-4" />
@@ -185,7 +186,7 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
                       Create templates for different channels to start sending notifications.
                     </p>
                     <Link
-                      href="/templates/create"
+                      href={route('templates.create')}
                       className="inline-flex items-center rounded-lg bg-gradient-to-r from-indigo-500 to-purple-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                     >
                       Create Template
@@ -215,7 +216,9 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
                         </div>
                         <div className="flex items-center space-x-2">
                           <Link
-                            href={`/templates/${template.id}`}
+                            href={route('templates.show', {
+                              params: { id: template.id.toString() },
+                            })}
                             className="text-sm font-medium text-indigo-600 transition-colors hover:text-indigo-500"
                           >
                             View →
@@ -231,7 +234,7 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
                           {3 - templates.length !== 1 ? 's' : ''} can be created
                         </p>
                         <Link
-                          href={`/templates/create?notification=${notification.id}`}
+                          href={`${route('templates.create')}?notification=${notification.id}`}
                           className="inline-flex items-center rounded-lg bg-indigo-600 px-3 py-1.5 text-xs font-medium text-white transition-colors hover:bg-indigo-700"
                         >
                           Add Template
@@ -242,7 +245,7 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
                     {templates.length > 0 && (
                       <div className="mt-4 border-t border-gray-200 pt-4">
                         <Link
-                          href={`/templates?notification=${notification.id}`}
+                          href={`${route('templates.index')}?notification=${notification.id}`}
                           className="inline-flex w-full items-center justify-center rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none"
                         >
                           <FileEdit className="mr-2 h-4 w-4" />
@@ -369,14 +372,14 @@ const NotificationsShow: InertiaPage<NotificationsShowProps> = ({
               <h3 className="mb-3 text-lg font-semibold text-gray-900">Quick Actions</h3>
               <div className="space-y-3">
                 <Link
-                  href={`/notifications/${notification.id}/edit`}
+                  href={route('notifications.edit', { params: { id: notification.id.toString() } })}
                   className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-colors hover:border-indigo-300 hover:bg-indigo-50"
                 >
                   <Edit className="h-5 w-5 text-indigo-600" />
                   <span className="text-sm font-medium text-gray-900">Edit Notification</span>
                 </Link>
                 <Link
-                  href="/templates/create"
+                  href={route('templates.create')}
                   className="flex items-center gap-3 rounded-lg border border-gray-200 p-3 transition-colors hover:border-green-300 hover:bg-green-50"
                 >
                   <span className="text-lg font-semibold text-green-600">T</span>
