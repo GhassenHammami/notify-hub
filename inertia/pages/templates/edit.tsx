@@ -86,6 +86,32 @@ const TemplatesEdit: InertiaPage<TemplatesEditProps> = ({ template }) => {
     return normalize(data.content) !== normalize(originalContent)
   }
 
+  const hasAttributesChanged = (): boolean => {
+    const originalAttributes = (template.attributes || []).map((attr) => ({
+      name: attr.name,
+      type: attr.type,
+      isRequired: attr.isRequired,
+    }))
+
+    if (originalAttributes.length !== data.attributes.length) {
+      return true
+    }
+
+    return originalAttributes.some((originalAttr, index) => {
+      const currentAttr = data.attributes[index]
+      return (
+        !currentAttr ||
+        originalAttr.name !== currentAttr.name ||
+        originalAttr.type !== currentAttr.type ||
+        originalAttr.isRequired !== currentAttr.isRequired
+      )
+    })
+  }
+
+  const hasChanges = (): boolean => {
+    return hasContentChanged() || hasAttributesChanged()
+  }
+
   const handleContentChange = (content: string) => {
     const attributes = extractAttributes(content)
 
@@ -205,7 +231,7 @@ const TemplatesEdit: InertiaPage<TemplatesEditProps> = ({ template }) => {
                   </Link>
                   <button
                     type="submit"
-                    disabled={processing || !data.content.trim() || !hasContentChanged()}
+                    disabled={processing || !data.content.trim() || !hasChanges()}
                     className="inline-flex items-center rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-all duration-200 hover:scale-105 hover:from-indigo-600 hover:to-purple-700 hover:shadow-md focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 focus:outline-none disabled:cursor-not-allowed disabled:opacity-50"
                   >
                     {processing ? (
