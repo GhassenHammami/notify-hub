@@ -747,112 +747,112 @@ export default class extends BaseSeeder {
       isRequired: true,
     })
 
-    const attribute8 = await Attribute.create({
+    await Attribute.create({
       templateId: template9.id,
       name: 'level',
       type: AttributeType.NUMBER,
       isRequired: true,
     })
 
-    const attribute9 = await Attribute.create({
+    await Attribute.create({
       templateId: template10.id,
       name: 'bonusAmount',
       type: AttributeType.NUMBER,
       isRequired: true,
     })
 
-    const attribute10 = await Attribute.create({
+    await Attribute.create({
       templateId: template11.id,
       name: 'leadName',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute11 = await Attribute.create({
+    await Attribute.create({
       templateId: template11.id,
       name: 'company',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute12 = await Attribute.create({
+    await Attribute.create({
       templateId: template12.id,
       name: 'meetingTitle',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute13 = await Attribute.create({
+    await Attribute.create({
       templateId: template12.id,
       name: 'meetingTime',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute14 = await Attribute.create({
+    await Attribute.create({
       templateId: template13.id,
       name: 'reportName',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute15 = await Attribute.create({
+    await Attribute.create({
       templateId: template14.id,
       name: 'metricName',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute16 = await Attribute.create({
+    await Attribute.create({
       templateId: template14.id,
       name: 'anomalyValue',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute17 = await Attribute.create({
+    await Attribute.create({
       templateId: template15.id,
       name: 'productName',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute18 = await Attribute.create({
+    await Attribute.create({
       templateId: template15.id,
       name: 'currentStock',
       type: AttributeType.NUMBER,
       isRequired: true,
     })
 
-    const attribute19 = await Attribute.create({
+    await Attribute.create({
       templateId: template16.id,
       name: 'orderNumber',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute20 = await Attribute.create({
+    await Attribute.create({
       templateId: template16.id,
       name: 'customerName',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute21 = await Attribute.create({
+    await Attribute.create({
       templateId: template17.id,
       name: 'ticketId',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute22 = await Attribute.create({
+    await Attribute.create({
       templateId: template17.id,
       name: 'issue',
       type: AttributeType.TEXT,
       isRequired: true,
     })
 
-    const attribute23 = await Attribute.create({
+    await Attribute.create({
       templateId: template18.id,
       name: 'rating',
       type: AttributeType.NUMBER,
@@ -874,14 +874,14 @@ export default class extends BaseSeeder {
       sentAt: DateTime.now(),
     })
 
-    const delivery3 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template2.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1234567890',
       sentAt: DateTime.now(),
     })
 
-    const delivery4 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template3.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_123',
@@ -924,28 +924,28 @@ export default class extends BaseSeeder {
     })
 
     // User 2's deliveries (Mobile Game & CRM)
-    const delivery10 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template9.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_789',
       sentAt: DateTime.now(),
     })
 
-    const delivery11 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template10.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'player@game.com',
       sentAt: DateTime.now(),
     })
 
-    const delivery12 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template11.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1987654321',
       sentAt: DateTime.now(),
     })
 
-    const delivery13 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template12.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'sales@crm.com',
@@ -953,14 +953,14 @@ export default class extends BaseSeeder {
     })
 
     // User 3's deliveries (Analytics)
-    const delivery14 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template13.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_analytics',
       sentAt: DateTime.now(),
     })
 
-    const delivery15 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template14.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'analyst@company.com',
@@ -968,28 +968,28 @@ export default class extends BaseSeeder {
     })
 
     // User 4's deliveries (Inventory & Support)
-    const delivery16 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template15.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1555666777',
       sentAt: DateTime.now(),
     })
 
-    const delivery17 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template16.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'warehouse@company.com',
       sentAt: DateTime.now(),
     })
 
-    const delivery18 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template17.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_support',
       sentAt: DateTime.now(),
     })
 
-    const delivery19 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template18.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'support@company.com',
@@ -997,14 +997,14 @@ export default class extends BaseSeeder {
     })
 
     // Create some failed deliveries for testing
-    const failedDelivery1 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template1.id,
       status: NotificationDeliveryStatus.FAILED,
       recipient: 'invalid@email',
       failReason: 'Invalid email address',
     })
 
-    const failedDelivery2 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template2.id,
       status: NotificationDeliveryStatus.FAILED,
       recipient: '+9999999999',
@@ -1012,13 +1012,13 @@ export default class extends BaseSeeder {
     })
 
     // Create some pending deliveries
-    const pendingDelivery1 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template3.id,
       status: NotificationDeliveryStatus.PENDING,
       recipient: 'device_token_789',
     })
 
-    const pendingDelivery2 = await NotificationDelivery.create({
+    await NotificationDelivery.create({
       templateId: template4.id,
       status: NotificationDeliveryStatus.PENDING,
       recipient: 'user@example.com',
