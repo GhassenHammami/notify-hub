@@ -94,10 +94,7 @@ const EmailTemplateEditor: React.FC<EmailTemplateEditorProps> = ({
         btnCombined.onclick = () => grapesjsEditor.runCommand(cmdNameCombined)
       })
 
-      const updateContent = () => handleContentChange(grapesjsEditor)
-      ;['update', 'component:add', 'component:remove', 'component:update'].forEach((evt) =>
-        grapesjsEditor.on(evt, updateContent)
-      )
+      grapesjsEditor.on('update', () => handleContentChange(grapesjsEditor))
 
       grapesjsEditor.setComponents(content)
     })
