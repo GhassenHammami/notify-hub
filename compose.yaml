@@ -1,0 +1,16 @@
+services:
+  server:
+    build:
+      context: .
+    environment:
+      TZ: UTC
+      PORT: 3333
+      HOST: 0.0.0.0
+      LOG_LEVEL: info
+      APP_KEY: rKGOyetULfkUJY0PciTS3fHfY0ng0Sme
+      NODE_ENV: production
+      SESSION_DRIVER: cookie
+      VITE_APP_NAME: NotifyHub
+      DRIVE_DISK: fs
+    ports:
+      - '3333:3333'
