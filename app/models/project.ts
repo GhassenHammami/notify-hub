@@ -21,7 +21,9 @@ export default class Project extends BaseModel {
   @column()
   declare apiKey: string
 
-  @column()
+  @column({
+    consume: (value: number) => Boolean(value),
+  })
   declare isActive: boolean
 
   @column({

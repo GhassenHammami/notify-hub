@@ -140,6 +140,7 @@ export default class ProjectsController {
 
     project.isActive = !project.isActive
     await project.save()
+    session.put('current_project', project)
 
     const status = project.isActive ? 'activated' : 'deactivated'
     session.flash('success', `Project "${project.name}" has been ${status} successfully!`)
