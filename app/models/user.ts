@@ -3,7 +3,7 @@ import hash from '@adonisjs/core/services/hash'
 import { compose } from '@adonisjs/core/helpers'
 import { BaseModel, beforeSave, column } from '@adonisjs/lucid/orm'
 import { withAuthFinder } from '@adonisjs/auth/mixins/lucid'
-import { DbAccessTokensProvider } from '@adonisjs/auth/access_tokens'
+import { DbRememberMeTokensProvider } from '@adonisjs/auth/session'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
   uids: ['email'],
@@ -43,5 +43,5 @@ export default class User extends compose(BaseModel, AuthFinder) {
     }
   }
 
-  static accessTokens = DbAccessTokensProvider.forModel(User)
+  static rememberMeTokens = DbRememberMeTokensProvider.forModel(User)
 }

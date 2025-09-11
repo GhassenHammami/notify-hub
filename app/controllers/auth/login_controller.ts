@@ -11,9 +11,9 @@ export default class LoginController {
   }
 
   async store({ request, response, auth, session }: HttpContext) {
-    const { email, password, isRememberMe } = await request.validateUsing(loginValidator)
+    const { email, password, rememberMe } = await request.validateUsing(loginValidator)
     const user = await User.verifyCredentials(email, password)
-    await auth.use('web').login(user, isRememberMe)
+    await auth.use('web').login(user, !!rememberMe)
     session.forget('current_project')
     return response.redirect().toRoute('dashboard.show')
   }
