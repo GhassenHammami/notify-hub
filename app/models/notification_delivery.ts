@@ -10,6 +10,9 @@ export default class NotificationDelivery extends BaseModel {
   declare id: number
 
   @column()
+  declare title: string
+
+  @column()
   declare templateId: number
 
   @belongsTo(() => Template)

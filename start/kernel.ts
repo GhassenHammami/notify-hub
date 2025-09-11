@@ -40,7 +40,6 @@ server.use([
  */
 router.use([
   () => import('@adonisjs/core/bodyparser_middleware'),
-  () => import('@adonisjs/shield/shield_middleware'),
   () => import('#middleware/clean_session_middleware'),
 ])
 
@@ -50,7 +49,9 @@ router.use([
  */
 
 export const middleware = router.named({
+  shield: () => import('@adonisjs/shield/shield_middleware'),
   guest: () => import('#middleware/guest_middleware'),
   auth: () => import('#middleware/auth_middleware'),
   project: () => import('#middleware/project_middleware'),
+  api_auth: () => import('#middleware/api_auth_middleware'),
 })
