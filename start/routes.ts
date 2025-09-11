@@ -103,6 +103,10 @@ router
       .as('templates')
       .use([middleware.auth(), middleware.project()])
 
+    router
+      .get('/api-docs', '#controllers/api_docs_controller.show')
+      .as('api.docs')
+      .use(middleware.auth())
   })
   .use([middleware.shield()])
 

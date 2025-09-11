@@ -136,6 +136,16 @@ const Dashboard: InertiaPage<DashboardData> = ({ stats, chartData, recentNotific
                       <span className="text-sm text-gray-500">→</span>
                     </div>
                   </Link>
+                  <Link
+                    href={route('api.docs')}
+                    as="button"
+                    className="w-full rounded-lg border border-gray-200 bg-white px-4 py-3 text-left transition-colors hover:border-blue-300 hover:bg-blue-50"
+                  >
+                    <div className="flex items-center justify-between">
+                      <span className="font-medium text-gray-900">View API Docs</span>
+                      <span className="text-sm text-gray-500">→</span>
+                    </div>
+                  </Link>
                 </div>
               </div>
             </div>

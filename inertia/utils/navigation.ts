@@ -1,5 +1,5 @@
 import { route } from '@izzyjs/route/client'
-import { LayoutDashboard, FolderKanban, FileEdit, Bell, LucideIcon } from 'lucide-react'
+import { LayoutDashboard, FolderKanban, FileEdit, Bell, LucideIcon, Code } from 'lucide-react'
 
 export interface NavigationItem {
   label: string
@@ -32,5 +32,11 @@ export const navigationItems: NavigationItem[] = [
     href: route('templates.index').path,
     icon: FileEdit,
     requiresProject: true,
+  },
+  {
+    label: 'API Docs',
+    href: route('api.docs').path,
+    icon: Code,
+    requiresProject: false,
   },
 ]
