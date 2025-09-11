@@ -859,8 +859,44 @@ export default class extends BaseSeeder {
       isRequired: true,
     })
 
+    await Attribute.create({
+      templateId: template2.id,
+      name: 'orderNumber',
+      type: AttributeType.TEXT,
+      isRequired: true,
+    })
+
+    await Attribute.create({
+      templateId: template4.id,
+      name: 'customerName',
+      type: AttributeType.TEXT,
+      isRequired: true,
+    })
+
+    await Attribute.create({
+      templateId: template4.id,
+      name: 'orderNumber',
+      type: AttributeType.TEXT,
+      isRequired: true,
+    })
+
+    await Attribute.create({
+      templateId: template5.id,
+      name: 'trackingUrl',
+      type: AttributeType.TEXT,
+      isRequired: true,
+    })
+
+    await Attribute.create({
+      templateId: template7.id,
+      name: 'customerName',
+      type: AttributeType.TEXT,
+      isRequired: true,
+    })
+
     // Create test notification deliveries for different users
     const delivery1 = await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template1.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'john@example.com',
@@ -868,6 +904,7 @@ export default class extends BaseSeeder {
     })
 
     const delivery2 = await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template1.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'jane@example.com',
@@ -875,6 +912,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template2.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1234567890',
@@ -882,6 +920,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template3.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_123',
@@ -889,6 +928,7 @@ export default class extends BaseSeeder {
     })
 
     const delivery5 = await NotificationDelivery.create({
+      title: notification2.title,
       templateId: template4.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'john@example.com',
@@ -896,6 +936,7 @@ export default class extends BaseSeeder {
     })
 
     const delivery6 = await NotificationDelivery.create({
+      title: notification2.title,
       templateId: template5.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1234567890',
@@ -903,6 +944,7 @@ export default class extends BaseSeeder {
     })
 
     const delivery7 = await NotificationDelivery.create({
+      title: notification3.title,
       templateId: template6.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_456',
@@ -910,6 +952,7 @@ export default class extends BaseSeeder {
     })
 
     const delivery8 = await NotificationDelivery.create({
+      title: notification4.title,
       templateId: template7.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'john@example.com',
@@ -917,6 +960,7 @@ export default class extends BaseSeeder {
     })
 
     const delivery9 = await NotificationDelivery.create({
+      title: notification5.title,
       templateId: template8.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1234567890',
@@ -925,6 +969,7 @@ export default class extends BaseSeeder {
 
     // User 2's deliveries (Mobile Game & CRM)
     await NotificationDelivery.create({
+      title: notification6.title,
       templateId: template9.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_789',
@@ -932,6 +977,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification7.title,
       templateId: template10.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'player@game.com',
@@ -939,6 +985,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification8.title,
       templateId: template11.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1987654321',
@@ -946,6 +993,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification9.title,
       templateId: template12.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'sales@crm.com',
@@ -954,6 +1002,7 @@ export default class extends BaseSeeder {
 
     // User 3's deliveries (Analytics)
     await NotificationDelivery.create({
+      title: notification10.title,
       templateId: template13.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_analytics',
@@ -961,6 +1010,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification11.title,
       templateId: template14.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'analyst@company.com',
@@ -969,6 +1019,7 @@ export default class extends BaseSeeder {
 
     // User 4's deliveries (Inventory & Support)
     await NotificationDelivery.create({
+      title: notification12.title,
       templateId: template15.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: '+1555666777',
@@ -976,6 +1027,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification13.title,
       templateId: template16.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'warehouse@company.com',
@@ -983,6 +1035,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification14.title,
       templateId: template17.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'device_token_support',
@@ -990,6 +1043,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification15.title,
       templateId: template18.id,
       status: NotificationDeliveryStatus.SENT,
       recipient: 'support@company.com',
@@ -998,6 +1052,7 @@ export default class extends BaseSeeder {
 
     // Create some failed deliveries for testing
     await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template1.id,
       status: NotificationDeliveryStatus.FAILED,
       recipient: 'invalid@email',
@@ -1005,6 +1060,7 @@ export default class extends BaseSeeder {
     })
 
     await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template2.id,
       status: NotificationDeliveryStatus.FAILED,
       recipient: '+9999999999',
@@ -1013,12 +1069,14 @@ export default class extends BaseSeeder {
 
     // Create some pending deliveries
     await NotificationDelivery.create({
+      title: notification1.title,
       templateId: template3.id,
       status: NotificationDeliveryStatus.PENDING,
       recipient: 'device_token_789',
     })
 
     await NotificationDelivery.create({
+      title: notification2.title,
       templateId: template4.id,
       status: NotificationDeliveryStatus.PENDING,
       recipient: 'user@example.com',
