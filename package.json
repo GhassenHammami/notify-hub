@@ -1,9 +1,27 @@
 {
-  "name": "project",
-  "version": "0.0.0",
+  "name": "notify-hub",
+  "version": "1.0.0",
+  "description": "The complete notification solution for developers. Send emails, SMS, and push notifications with powerful APIs and beautiful templates.",
   "private": true,
   "type": "module",
-  "license": "UNLICENSED",
+  "license": "MIT",
+  "author": "Ghassen Hammami",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GhassenHammami/notify-hub.git"
+  },
+  "homepage": "https://github.com/GhassenHammami/notify-hub#readme",
+  "keywords": [
+    "notifications",
+    "email",
+    "sms",
+    "push-notifications",
+    "adonisjs",
+    "react",
+    "inertia",
+    "typescript",
+    "tailwindcss"
+  ],
   "scripts": {
     "start": "node bin/server.js",
     "build": "node ace build",
