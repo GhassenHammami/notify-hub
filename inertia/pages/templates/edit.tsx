@@ -10,6 +10,7 @@ import { route } from '@izzyjs/route/client'
 import { templateChannelConfig } from '~/utils/templateChannelConfig'
 import Channel from '#enums/channel'
 import { b64toBlob } from '~/utils/b64toBlob'
+import { formatChannelName } from '#utils/formatChannelName'
 
 interface TemplatesEditProps {
   template: Template
@@ -140,7 +141,7 @@ const TemplatesEdit: InertiaPage<TemplatesEditProps> = ({ template }) => {
 
   return (
     <>
-      <Head title={`Edit ${template.channel} Template`} />
+      <Head title={`Edit ${formatChannelName(template.channel)} Template`} />
 
       <div className="bg-gradient-to-br from-gray-50 to-gray-100 px-4 py-8 sm:px-6 lg:px-8">
         <header className="mb-8">
