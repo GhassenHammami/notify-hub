@@ -92,11 +92,11 @@ export default class DashboardController {
         .where('projects.user_id', auth.user!.id)
         .select(
           'notification_deliveries.id',
+          'notification_deliveries.title',
           'notification_deliveries.status',
           'notification_deliveries.created_at',
           'notification_deliveries.recipient',
-          'templates.channel',
-          'notifications.title'
+          'templates.channel'
         )
         .orderBy('notification_deliveries.created_at', 'desc')
         .limit(5),
@@ -125,7 +125,7 @@ export default class DashboardController {
     const recentData: DashboardRecentNotification[] = recentNotifications.map((delivery: any) => ({
       id: delivery.id,
       type: delivery.$extras.channel,
-      title: delivery.$extras.title,
+      title: delivery.title,
       recipient: delivery.recipient,
       status: delivery.status,
       time: this.formatTimeAgo(delivery.createdAt),
