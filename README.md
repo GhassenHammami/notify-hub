@@ -25,6 +25,7 @@
 - [Project Description](#project-description)
 - [Tech Stack](#tech-stack)
 - [Features](#features)
+- [Demo](#demo)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
@@ -78,6 +79,14 @@ The platform solves the common problem of managing complex notification workflow
 - 🔍 **Real-time Tracking** - Track notification delivery status and performance
 - 📈 **Charts & Visualizations** - Interactive charts showing notification trends and statistics
 - 🛡️ **Security** - CSRF protection, input validation, and secure authentication
+
+## Demo
+
+- This demo showcases how the app works.
+
+https://github.com/user-attachments/assets/27b3cb75-5a62-45ac-84a6-f4a9e1293b67
+
+
 
 ## Getting Started
 
@@ -140,6 +149,16 @@ The platform solves the common problem of managing complex notification workflow
    Generate an application key:
    ```bash
    node ace generate:key
+   ```
+
+   For development, ensure the `tmp` directory exists for the local SQLite database file:
+   ```powershell
+   # Windows (PowerShell)
+   mkdir tmp
+   ```
+   ```bash
+   # macOS/Linux
+   mkdir -p tmp
    ```
 
 4. **Database setup**
