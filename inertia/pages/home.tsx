@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from 'react'
 import GuestLayout from '~/layouts/GuestLayout'
 import { InertiaPage } from '~/app/app'
-import { Head } from '@inertiajs/react'
+import { Head, Link } from '@inertiajs/react'
 import { Check } from 'lucide-react'
+import { route } from '@izzyjs/route/client'
 
 interface Feature {
   title: string
@@ -181,12 +182,13 @@ const Home: InertiaPage = () => {
             <div
               className={`flex flex-col justify-center gap-3 transition-all delay-500 duration-1000 sm:flex-row sm:gap-4 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}
             >
-              <button
+              <Link
+                href={route('auth.register.show')}
+                as="button"
                 className="transform rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-600 transition-all duration-200 hover:scale-105 hover:bg-gray-100 sm:px-8 sm:text-base"
-                onClick={() => handleButtonClick('start-building')}
               >
                 Start Building Now
-              </button>
+              </Link>
               <button
                 className="transform rounded-lg border-2 border-white px-6 py-3 text-sm font-semibold text-white transition-all duration-200 hover:scale-105 hover:bg-white hover:text-blue-600 sm:px-8 sm:text-base"
                 onClick={() => handleButtonClick('view-documentation')}
@@ -358,12 +360,13 @@ const Home: InertiaPage = () => {
             Join thousands of developers who trust Notify Hub for their notification needs.
           </p>
           <div className="flex flex-col justify-center gap-3 sm:flex-row sm:gap-4">
-            <button
+            <Link
+              href={route('auth.register.show')}
+              as="button"
               className="transform rounded-lg bg-white px-6 py-3 text-sm font-semibold text-blue-600 transition-all duration-200 hover:scale-105 hover:bg-gray-100 sm:px-8 sm:text-base"
-              onClick={() => handleButtonClick('create-account')}
             >
               Create Free Account
-            </button>
+            </Link>
           </div>
         </div>
       </section>
