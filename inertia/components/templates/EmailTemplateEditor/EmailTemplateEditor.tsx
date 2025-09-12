@@ -96,6 +96,7 @@ const EmailTemplateEditor: React.FC<EmailTemplateEditorProps> = ({
 
       grapesjsEditor.on('update', () => handleContentChange(grapesjsEditor))
 
+      grapesjsEditor.runCommand('set-device-tablet')
       grapesjsEditor.setComponents(content)
     })
   }
